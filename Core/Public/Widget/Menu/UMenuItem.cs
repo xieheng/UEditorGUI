@@ -4,14 +4,42 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UMenuItem
+public abstract class UMenuItem : UControl
 {
     #region Data
 
     /// <summary>
     /// 
     /// </summary>
-    private string _caption = string.Empty;
+    protected GenericMenu _parent = null;
+
+    #endregion
+
+    #region Public
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="parent"></param>
+    public void SetParent(GenericMenu parent)
+    {
+        _parent = parent;
+    }
+
+    #endregion
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class UMenuButton : UMenuItem
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private string _text = string.Empty;
 
     /// <summary>
     /// 
@@ -20,16 +48,46 @@ public class UMenuItem
 
     #endregion
 
-    #region Construction
-    
+    #region Event
+
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="caption"></param>
-    public UMenuItem(string caption)
+    public event UEventHandler OnClicked;
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    public UMenuButton(string text)
     {
-        _caption = caption;
-        _enabled = true;
+        _text = text;
+    }
+
+    #endregion
+
+    #region Override
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public override void OnGUI()
+    {
+        if (_parent == null)
+            return;
+
+        if (_enabled)
+        {
+            _parent.AddItem(new GUIContent(_text), false, OnClickedHandler);
+        }
+        else
+        {
+            _parent.AddDisabledItem(new GUIContent(_text));
+        }
     }
 
     #endregion
@@ -39,26 +97,47 @@ public class UMenuItem
     /// <summary>
     /// 
     /// </summary>
-    public string Caption
-    {
-        get { return _caption; }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     public bool IsEnabled
     {
         set { _enabled = value; }
         get { return _enabled; }
     }
-    
+
+    #endregion
+
+    #region Private
+
     /// <summary>
     /// 
     /// </summary>
-    public void OnClickedHandler()
+    private void OnClickedHandler()
     {
+        if (OnClicked != null)
+        {
+            UEventArgs args = new UEventArgs();
+            OnClicked(args);
+        }
+    }
 
+    #endregion
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class UMenuSeparator : UMenuItem
+{
+    #region Override
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public override void OnGUI()
+    {
+        if (_parent != null)
+        {
+            _parent.AddSeparator(string.Empty);
+        }
     }
 
     #endregion

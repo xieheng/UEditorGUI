@@ -1,13 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /// <summary>
 /// 
 /// </summary>
-public abstract class UControl 
+public abstract class UControl : UObject
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public abstract void OnGUI();
 }

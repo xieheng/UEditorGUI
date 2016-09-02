@@ -2,14 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ULayout : UControl
+public class ULayout : UObject
 {
     #region Data
 
     /// <summary>
     /// 
     /// </summary>
-    protected List<UControl> _children = new List<UControl>();
+    protected List<UObject> _children = new List<UObject>();
 
     #endregion
 
@@ -24,7 +24,7 @@ public class ULayout : UControl
         {
             for (int i = 0; i < _children.Count; i++)
             {
-                UControl child = _children[i];
+                UObject child = _children[i];
                 child.OnGUI();
             }
         }
@@ -41,7 +41,7 @@ public class ULayout : UControl
     /// <param name="widget"></param>
     public void AddWidget(UWidget widget)
     {
-        if (widget != null && !_children.Contains(widget))
+        if (widget != null)
         {
             _children.Add(widget);
         }
@@ -53,7 +53,7 @@ public class ULayout : UControl
     /// <param name="layout"></param>
     public void AddLayout(ULayout layout)
     {
-        if (layout != null && !_children.Contains(layout))
+        if (layout != null)
         {
             _children.Add(layout);
         }

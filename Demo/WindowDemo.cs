@@ -44,6 +44,12 @@ public class WindowDemo : UWindow
     private void OnButtonClickedHandler(UEventArgs args)
     {
         Debug.Log("Button is clicked");
+
+        InspectorDemoObject demoObject = ScriptableObject.CreateInstance<InspectorDemoObject>();
+        demoObject.hideFlags = HideFlags.DontSave;
+        demoObject.name = "Button";
+
+        Selection.activeObject = demoObject;
     }
 
     private void OnMenuButtonAClickedHandler(UEventArgs args)

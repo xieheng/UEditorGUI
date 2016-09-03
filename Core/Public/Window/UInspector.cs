@@ -19,8 +19,6 @@ public abstract class UInspector : Editor
     /// </summary>
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
-
         _layout.OnGUI();
         Repaint();
     }

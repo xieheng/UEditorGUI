@@ -17,6 +17,11 @@ public abstract class UWidget : UControl
     /// </summary>
     protected Color _color = Color.white;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    protected bool _autoSize = true;
+
     #endregion
 
     #region Public
@@ -37,6 +42,35 @@ public abstract class UWidget : UControl
     {
         set { _color = value; }
         get { return _color; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsAutoSize
+    {
+        set 
+        {
+            _autoSize = value;
+            if (_autoSize)
+            {
+                FixAutoSize();
+            }
+        }
+
+        get { return _autoSize; }
+    }
+
+    #endregion
+
+    #region Private 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected virtual void FixAutoSize()
+    {
+
     }
 
     #endregion

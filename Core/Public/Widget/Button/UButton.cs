@@ -64,7 +64,7 @@ public class UButton : UWidget
     {
         if (OnClicked != null)
         {
-            UEventArgs args = new UEventArgs();
+            UEventArgs args = new UEventArgs(this);
             OnClicked(args);
         }
     }

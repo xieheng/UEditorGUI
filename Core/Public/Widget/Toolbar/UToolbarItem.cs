@@ -15,6 +15,11 @@ public abstract class UToolbarItem : UWidget
     /// 
     /// </summary>
     private UToolbar.Alignment _alignment = UToolbar.Alignment.Left;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected GUILayoutOption _widthOption = GUILayout.ExpandWidth(false);
     
     #endregion
 
@@ -40,6 +45,66 @@ public abstract class UToolbarItem : UWidget
     {
         set { _alignment = value; }
         get { return _alignment; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="width"></param>
+    public void SetWidth(int width)
+    {
+        if (!_autoSize)
+        {
+            _widthOption = (width > 0) ? GUILayout.Width(width) : GUILayout.ExpandWidth(false);
+        }
+    }
+
+    #endregion
+
+    #region Override
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected override void  FixAutoSize()
+    {
+        _widthOption = GUILayout.ExpandWidth(false);
+    }
+
+    #endregion
+}
+
+#endregion
+
+#region UToolbarLabel
+
+/// <summary>
+/// 
+/// </summary>
+public class UToolbarLabel : UToolbarItem
+{
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    public UToolbarLabel(string text, UToolbar.Alignment alignment = UToolbar.Alignment.Left)
+        : base(alignment)
+    {
+        _caption = text;
+    }
+
+    #endregion
+
+    #region Override
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public override void  OnGUI()
+    {
+        GUILayout.Label(_caption, EditorStyles.toolbarTextField);
     }
 
     #endregion
@@ -105,7 +170,7 @@ public class UToolbarButton : UToolbarItem
     {
         if (OnClicked != null)
         {
-            UEventArgs args = new UEventArgs();
+            UEventArgs args = new UEventArgs(this);
             OnClicked(args);
         }
     }
@@ -224,6 +289,15 @@ public class UToolbarSearchField : UToolbarItem
 
     #endregion
 
+    #region Event
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public event UTextChangedEventHandler OnTextChanged;
+
+    #endregion
+
     #region Construction
 
     /// <summary>
@@ -233,7 +307,8 @@ public class UToolbarSearchField : UToolbarItem
     public UToolbarSearchField(UToolbar.Alignment alignment = UToolbar.Alignment.Right)
         :base(alignment)
     {
-
+        _autoSize = false;
+        SetWidth(120);
     }
 
     #endregion
@@ -245,7 +320,11 @@ public class UToolbarSearchField : UToolbarItem
     /// </summary>
     public override void OnGUI()
     {
-        _text = GUILayout.TextField(_text, GUI.skin.FindStyle("ToolbarSeachTextField"), GUILayout.MinWidth(120));
+        EditorGUI.BeginChangeCheck();
+        {
+            _text = GUILayout.TextField(_text, GUI.skin.FindStyle("ToolbarSeachTextField"), _widthOption);
+        }
+        bool changed = EditorGUI.EndChangeCheck();
 
         if (string.IsNullOrEmpty(_text))
         {
@@ -256,12 +335,120 @@ public class UToolbarSearchField : UToolbarItem
             if (GUILayout.Button(string.Empty, GUI.skin.FindStyle("ToolbarSeachCancelButton")))
             {
                 _text = string.Empty;
+                changed = true;
+
                 GUI.FocusControl(null);
             }
+        }
+
+        if (changed)
+        {
+            OnTextChangedHandler();
         }
     }
 
     #endregion
+
+    #region Private 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void OnTextChangedHandler()
+    {
+        if (OnTextChanged != null)
+        {
+            UTextEventArgs args = new UTextEventArgs(this, _text);
+            OnTextChanged(args);
+        }
+    }
+
+    #endregion
+}
+
+#endregion
+
+#region UToolbarTextFiled
+
+/// <summary>
+/// 
+/// </summary>
+public class UToolbarTextField : UToolbarItem
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private string _text = string.Empty;
+
+    #endregion
+
+    #region Event
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public event UTextChangedEventHandler OnTextChanged;
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="alignment"></param>
+    public UToolbarTextField(string text, UToolbar.Alignment alignment = UToolbar.Alignment.Left)
+        : base(alignment)
+    {
+        _text = text;
+    }
+
+    #endregion
+
+    #region Override
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public override void OnGUI()
+    {
+        GUI.color = _color;
+        {
+            EditorGUI.BeginChangeCheck();
+            {
+                _text = EditorGUILayout.TextField(_text);
+            }
+            bool changed = EditorGUI.EndChangeCheck();
+
+            if (changed)
+            {
+
+            }
+        }
+        GUI.color = Color.white;
+    }
+
+    #endregion
+
+    #region Private
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void OnTextChangedHandler()
+    {
+        if (OnTextChanged != null)
+        {
+            UTextEventArgs args = new UTextEventArgs(this, _text);
+            OnTextChanged(args);
+        }
+    }
+
+    #endregion
+
 }
 
 #endregion

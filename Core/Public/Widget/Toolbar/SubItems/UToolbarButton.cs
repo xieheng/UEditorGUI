@@ -4,24 +4,18 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UButton : UButtonBase
+public class UToolbarButton : UButtonBase
 {
     #region Construction
 
     /// <summary>
     /// 
     /// </summary>
-    public UButton()
-    {
-        _caption = "Button";
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     /// <param name="caption"></param>
-    public UButton(string caption)
+    public UToolbarButton(string caption)
+        : base(EditorStyles.toolbarButton)
     {
+        _autoSize = false;
         _caption = caption;
     }
 

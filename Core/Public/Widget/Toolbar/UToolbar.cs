@@ -14,7 +14,14 @@ public class UToolbar : UControl
     /// </summary>
     public enum Alignment
     {
+        /// <summary>
+        /// 
+        /// </summary>
         Left,
+
+        /// <summary>
+        /// 
+        /// </summary>
         Right
     }
 
@@ -25,12 +32,12 @@ public class UToolbar : UControl
     /// <summary>
     /// 
     /// </summary>
-    private List<UToolbarItem> _leftItems = new List<UToolbarItem>();
+    private List<UWidget> _leftItems = new List<UWidget>();
 
     /// <summary>
     /// 
     /// </summary>
-    private List<UToolbarItem> _rightItems = new List<UToolbarItem>();
+    private List<UWidget> _rightItems = new List<UWidget>();
 
     #endregion
 
@@ -74,8 +81,8 @@ public class UToolbar : UControl
     /// <returns></returns>
     public UToolbarButton AddButton(string caption, Alignment alignment = Alignment.Left)
     {
-        UToolbarButton button = new UToolbarButton(caption, alignment);
-        AddItem(button);
+        UToolbarButton button = new UToolbarButton(caption);
+        AddItem(button, alignment);
 
         return button;
     }
@@ -88,10 +95,39 @@ public class UToolbar : UControl
     /// <returns></returns>
     public UToolbarMenu AddMenu(string caption, Alignment alignment = Alignment.Left)
     {
-        UToolbarMenu menu = new UToolbarMenu(caption, alignment);
-        AddItem(menu);
+        UToolbarMenu menu = new UToolbarMenu(caption);
+        AddItem(menu, alignment);
 
         return menu;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="enumValue"></param>
+    /// <param name="alignment"></param>
+    /// <returns></returns>
+    public UToolbarEnumPopup AddEnumPopup(System.Enum enumValue, Alignment alignment = Alignment.Left)
+    {
+        UToolbarEnumPopup enumPopup = new UToolbarEnumPopup(enumValue);
+        AddItem(enumPopup, alignment);
+
+        return enumPopup;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="caption"></param>
+    /// <param name="enumValue"></param>
+    /// <param name="alignment"></param>
+    /// <returns></returns>
+    public UToolbarEnumPopup AddEnumPopup(string caption, System.Enum enumValue, Alignment alignment = Alignment.Left)
+    {
+        UToolbarEnumPopup enumPopup = new UToolbarEnumPopup(caption, enumValue);
+        AddItem(enumPopup, alignment);
+
+        return enumPopup;
     }
 
     /// <summary>
@@ -101,8 +137,22 @@ public class UToolbar : UControl
     /// <returns></returns>
     public UToolbarSearchField AddSearchFiled(Alignment alignment = Alignment.Right)
     {
-        UToolbarSearchField filed = new UToolbarSearchField(alignment);
-        AddItem(filed);
+        UToolbarSearchField filed = new UToolbarSearchField();
+        AddItem(filed, alignment);
+
+        return filed;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="caption"></param>
+    /// <param name="alignment"></param>
+    /// <returns></returns>
+    public UToolbarSearchField AddSearchFiled(string caption, Alignment alignment = Alignment.Right)
+    {
+        UToolbarSearchField filed = new UToolbarSearchField(caption);
+        AddItem(filed, alignment);
 
         return filed;
     }
@@ -116,9 +166,9 @@ public class UToolbar : UControl
     /// </summary>
     /// <param name="item"></param>
     /// <param name="alignment"></param>
-    private void AddItem(UToolbarItem item)
+    private void AddItem(UWidget item, Alignment alignment = Alignment.Left)
     {
-        if (item.Alignment == Alignment.Left)
+        if (alignment == Alignment.Left)
         {
             _leftItems.Add(item);
         }

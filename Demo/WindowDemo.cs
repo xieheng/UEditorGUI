@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
+/// <summary>
+/// A demo for window
+/// </summary>
 public class WindowDemo : UWindow
 {
     #region Static
 
+    /// <summary>
+    /// 
+    /// </summary>
     [MenuItem("Window/Demo")]
     public static void Init()
     {
@@ -13,34 +19,73 @@ public class WindowDemo : UWindow
 
     #endregion
 
+    #region Enum
+
+    /// <summary>
+    /// 
+    /// </summary>
+    enum WeekDay
+    {
+        Monday,
+        Tuesday,
+    }
+
+    #endregion
+
     #region Construction
 
+    /// <summary>
+    /// 
+    /// </summary>
     protected WindowDemo()
     {
-        UToolbarButton button = Toolbar.AddButton("Button");
-        button.OnClicked += OnButtonClickedHandler;
+        //toolbar
+        {
+            // button
+            {
+                UToolbarButton button = Toolbar.AddButton("Button");
+                button.OnClicked += OnButtonClickedHandler;
+            }
 
-        UToolbarMenu menu = Toolbar.AddMenu("Menu");
+            //menu
+            {
+                UToolbarMenu menu = Toolbar.AddMenu("Menu");
 
-        UMenuButton a = menu.AddButton("A");
-        a.OnClicked += OnMenuButtonAClickedHandler;
+                UMenuButton a = menu.AddButton("A");
+                a.OnClicked += OnMenuButtonAClickedHandler;
 
-        UMenuButton b = menu.AddButton("B");
-        b.IsEnabled = false;
-        b.OnClicked += OnMenuButtonBClickedHandler;
+                UMenuButton b = menu.AddButton("B");
+                b.IsEnabled = false;
+                b.OnClicked += OnMenuButtonBClickedHandler;
 
-        menu.AddSeparator();
+                menu.AddSeparator();
 
-        UMenuButton c = menu.AddButton("C");
-        c.OnClicked += OnMenuButtonCClickedHandler;
+                UMenuButton c = menu.AddButton("C");
+                c.OnClicked += OnMenuButtonCClickedHandler;
+            }
 
-        UToolbarSearchField searchFiled = Toolbar.AddSearchFiled();
+            //enum popup
+            {
+                UToolbarEnumPopup enumPopup = Toolbar.AddEnumPopup(WeekDay.Monday);
+                enumPopup.OnValueChanged += OnEnumValueChangedHandler;
+            }
+
+            //search field
+            {
+                UToolbarSearchField searchFiled = Toolbar.AddSearchFiled(UToolbar.Alignment.Right);
+                searchFiled.OnTextChanged += OnSerachTextChangedHander;
+            }
+        }
     }
 
     #endregion
 
     #region Handler
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="args"></param>
     private void OnButtonClickedHandler(UEventArgs args)
     {
         Debug.Log("Button is clicked");
@@ -52,19 +97,49 @@ public class WindowDemo : UWindow
         Selection.activeObject = demoObject;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="args"></param>
     private void OnMenuButtonAClickedHandler(UEventArgs args)
     {
         Debug.Log("Menu A is clicked");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="args"></param>
     private void OnMenuButtonBClickedHandler(UEventArgs args)
     {
         Debug.Log("Menu B is clicked");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="args"></param>
     private void OnMenuButtonCClickedHandler(UEventArgs args)
     {
         Debug.Log("Menu C is clicked");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="args"></param>
+    private void OnEnumValueChangedHandler(UEnumEventArgs args)
+    {
+        Debug.Log("Enum vlaue changed: " + args.Value.ToString());
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="args"></param>
+    private void OnSerachTextChangedHander(UTextEventArgs args)
+    {
+        Debug.Log("Now you are search by text: " + args.Text);
     }
 
     #endregion

@@ -11,3 +11,9 @@ public delegate void UEventHandler(UEventArgs args);
 /// </summary>
 /// <param name="args"></param>
 public delegate void UTextChangedEventHandler(UTextEventArgs args);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="args"></param>
+public delegate void UEnumChangedEventHandler(UEnumEventArgs args);

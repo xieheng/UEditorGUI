@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 #region UEventArgs
 
@@ -44,7 +45,7 @@ public class UEventArgs
 
 #endregion
 
-#region 
+#region UTextEventArgs
 
 /// <summary>
 /// 
@@ -71,6 +72,64 @@ public class UTextEventArgs : UEventArgs
         : base(sender)
     {
         _text = text;
+    }
+
+    #endregion
+
+    #region Public 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public string Text
+    {
+        get { return _text; }
+    }
+
+    #endregion
+}
+
+#endregion
+
+#region UEnumEventArgs 
+
+/// <summary>
+/// 
+/// </summary>
+public class UEnumEventArgs : UEventArgs
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private System.Enum _enum = null;
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="text"></param>
+    public UEnumEventArgs(object sender, System.Enum enumValue)
+        : base(sender)
+    {
+        _enum = enumValue;
+    }
+
+    #endregion
+
+    #region Public 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public System.Enum Value
+    {
+        get { return _enum; }
     }
 
     #endregion

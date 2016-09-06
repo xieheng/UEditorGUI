@@ -17,6 +17,17 @@ public class ULabel: UWidget
         _caption = text;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="style"></param>
+    protected ULabel(string text, GUIStyle style)
+    {
+        _caption = text;
+        _style = style;
+    }
+
     #endregion
 
     #region Override
@@ -31,7 +42,14 @@ public class ULabel: UWidget
 
         GUI.color = _color;
         {
-            GUILayout.Label(_caption);
+            if (_style == GUIStyle.none)
+            {
+                GUILayout.Label(_caption);
+            }
+            else
+            {
+                GUILayout.Label(_caption, _style);
+            }
         }
         GUI.color = Color.white;
     }

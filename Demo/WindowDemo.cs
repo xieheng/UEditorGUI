@@ -2,7 +2,7 @@
 using UnityEditor;
 
 /// <summary>
-/// A demo for window
+/// A demo of UWindow
 /// </summary>
 public class WindowDemo : UWindow
 {
@@ -50,6 +50,7 @@ public class WindowDemo : UWindow
             //toggle button
             {
                 UToggleButton toggleButton = Toolbar.AddToggleButton("Toggle");
+                toggleButton.OnToggleChanged += new UToggleChangedEventHandler(OnToggleChangedHandler);
             }
 
             //menu
@@ -94,12 +95,7 @@ public class WindowDemo : UWindow
     private void OnButtonClickedHandler(UEventArgs args)
     {
         Debug.Log("Button is clicked");
-
-        InspectorDemoObject demoObject = ScriptableObject.CreateInstance<InspectorDemoObject>();
-        demoObject.hideFlags = HideFlags.DontSave;
-        demoObject.name = "Button";
-
-        Selection.activeObject = demoObject;
+        UInspector.Active<InspectorDemoObject>("Button");
     }
 
     /// <summary>
@@ -145,6 +141,15 @@ public class WindowDemo : UWindow
     private void OnSerachTextChangedHander(UTextEventArgs args)
     {
         Debug.Log("Now you are search by text: " + args.Text);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="args"></param>
+    void OnToggleChangedHandler(UToggleEventArgs args)
+    {
+        Debug.Log("Toggle state changed: " + args.IsToggled);
     }
 
     #endregion

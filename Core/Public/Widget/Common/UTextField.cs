@@ -31,7 +31,6 @@ public class UTextField : UWidget
     /// </summary>
     public UTextField()
     {
-
     }
 
     /// <summary>
@@ -81,11 +80,25 @@ public class UTextField : UWidget
             {
                 if (string.IsNullOrEmpty(_caption))
                 {
-                    _text = EditorGUILayout.TextField(_text, _style);
+                    if (_style == GUIStyle.none)
+                    {
+                        _text = EditorGUILayout.TextField(_text);
+                    }
+                    else
+                    {
+                        _text = EditorGUILayout.TextField(_text, _style);
+                    }
                 }
                 else
                 {
-                    _text = EditorGUILayout.TextField(_caption, _text, _style);
+                    if (_style == GUIStyle.none)
+                    {
+                        _text = EditorGUILayout.TextField(_caption, _text);
+                    }
+                    else
+                    {
+                        _text = EditorGUILayout.TextField(_caption, _text, _style);
+                    }
                 }
             }
             bool changed = EditorGUI.EndChangeCheck();

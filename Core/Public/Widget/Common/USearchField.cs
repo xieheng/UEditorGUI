@@ -39,31 +39,35 @@ public class USearchField : UTextField
         if (!_visible)
             return;
 
-        EditorGUI.BeginChangeCheck();
+        EditorGUILayout.BeginHorizontal();
         {
-            _text = GUILayout.TextField(_text, GUI.skin.FindStyle("ToolbarSeachTextField"), GUILayout.Width(120));
-        }
-        bool changed = EditorGUI.EndChangeCheck();
-
-        if (string.IsNullOrEmpty(_text))
-        {
-            GUILayout.Label(string.Empty, GUI.skin.FindStyle("ToolbarSeachCancelButtonEmpty"));
-        }
-        else
-        {
-            if (GUILayout.Button(string.Empty, GUI.skin.FindStyle("ToolbarSeachCancelButton")))
+            EditorGUI.BeginChangeCheck();
             {
-                _text = string.Empty;
-                changed = true;
+                _text = GUILayout.TextField(_text, GUI.skin.FindStyle("ToolbarSeachTextField"), GUILayout.Width(120));
+            }
+            bool changed = EditorGUI.EndChangeCheck();
 
-                GUI.FocusControl(null);
+            if (string.IsNullOrEmpty(_text))
+            {
+                GUILayout.Label(string.Empty, GUI.skin.FindStyle("ToolbarSeachCancelButtonEmpty"));
+            }
+            else
+            {
+                if (GUILayout.Button(string.Empty, GUI.skin.FindStyle("ToolbarSeachCancelButton")))
+                {
+                    _text = string.Empty;
+                    changed = true;
+
+                    GUI.FocusControl(null);
+                }
+            }
+
+            if (changed)
+            {
+                OnTextChangedHandler();
             }
         }
-
-        if (changed)
-        {
-            OnTextChangedHandler();
-        }
+        EditorGUILayout.EndHorizontal();
     }
 
     #endregion

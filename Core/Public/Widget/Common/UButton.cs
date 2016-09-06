@@ -56,7 +56,18 @@ public class UButton: UWidget
 
         GUI.color = _color;
         {
-            if (GUILayout.Button(_caption, _style))
+            bool clicked = false;
+
+            if (_style == GUIStyle.none)
+            {
+                clicked = GUILayout.Button(_caption);
+            }
+            else
+            {
+                clicked = GUILayout.Button(_caption, _style);
+            }
+
+            if (clicked)
             {
                 OnClickedHandler();
             }

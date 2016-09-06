@@ -1,28 +1,25 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-/// <summary>
-/// 
-/// </summary>
-public class UButton : UButtonBase
+public class UMiniButton : UButton
 {
     #region Construction
 
     /// <summary>
     /// 
     /// </summary>
-    public UButton()
+    public UMiniButton()
+        : base("Mini Button", EditorStyles.miniButton)
     {
-        _caption = "Button";
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="caption"></param>
-    public UButton(string caption)
+    public UMiniButton(string caption)
+        : base(caption, EditorStyles.miniButton)
     {
-        _caption = caption;
     }
 
     #endregion

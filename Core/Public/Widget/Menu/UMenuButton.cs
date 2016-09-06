@@ -4,35 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public abstract class UMenuItem : UControl
-{
-    #region Data
-
-    /// <summary>
-    /// 
-    /// </summary>
-    protected GenericMenu _parent = null;
-
-    #endregion
-
-    #region Public
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="parent"></param>
-    public void SetParent(GenericMenu parent)
-    {
-        _parent = parent;
-    }
-
-    #endregion
-}
-
-/// <summary>
-/// 
-/// </summary>
-public class UMenuButton : UMenuItem
+public class UMenuButton : UMenuSub
 {
     #region Data
 
@@ -77,7 +49,7 @@ public class UMenuButton : UMenuItem
     /// </summary>
     public override void OnGUI()
     {
-        if (_parent == null)
+        if (!_visible || _parent == null)
             return;
 
         if (_enabled)
@@ -116,27 +88,6 @@ public class UMenuButton : UMenuItem
         {
             UEventArgs args = new UEventArgs(this);
             OnClicked(args);
-        }
-    }
-
-    #endregion
-}
-
-/// <summary>
-/// 
-/// </summary>
-public class UMenuSeparator : UMenuItem
-{
-    #region Override
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public override void OnGUI()
-    {
-        if (_parent != null)
-        {
-            _parent.AddSeparator(string.Empty);
         }
     }
 

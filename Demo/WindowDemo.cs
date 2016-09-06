@@ -43,13 +43,18 @@ public class WindowDemo : UWindow
         {
             // button
             {
-                UToolbarButton button = Toolbar.AddButton("Button");
+                UButton button = Toolbar.AddButton("Button");
                 button.OnClicked += OnButtonClickedHandler;
+            }
+
+            //toggle button
+            {
+                UToggleButton toggleButton = Toolbar.AddToggleButton("Toggle");
             }
 
             //menu
             {
-                UToolbarMenu menu = Toolbar.AddMenu("Menu");
+                UMenu menu = Toolbar.AddMenu("Menu");
 
                 UMenuButton a = menu.AddButton("A");
                 a.OnClicked += OnMenuButtonAClickedHandler;
@@ -66,13 +71,13 @@ public class WindowDemo : UWindow
 
             //enum popup
             {
-                UToolbarEnumPopup enumPopup = Toolbar.AddEnumPopup(WeekDay.Monday);
+                UEnumPopup enumPopup = Toolbar.AddEnumPopup(WeekDay.Monday);
                 enumPopup.OnValueChanged += OnEnumValueChangedHandler;
             }
 
             //search field
             {
-                UToolbarSearchField searchFiled = Toolbar.AddSearchFiled(UToolbar.Alignment.Right);
+                USearchField searchFiled = Toolbar.AddSearchFiled(UToolbar.Alignment.Right);
                 searchFiled.OnTextChanged += OnSerachTextChangedHander;
             }
         }

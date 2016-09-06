@@ -91,7 +91,48 @@ public class UTextEventArgs : UEventArgs
 
 #endregion
 
-#region UEnumEventArgs 
+#region UIntEventArgs
+
+/// <summary>
+/// 
+/// </summary>
+public class UIntEventArgs : UEventArgs
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private int _value = 0;
+
+    #endregion
+
+    #region Construction
+
+    public UIntEventArgs(object sender, int intValue)
+        : base(sender)
+    {
+        _value = intValue;
+    }
+
+    #endregion
+
+    #region Public 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int Value
+    {
+        get { return _value; }
+    }
+
+    #endregion
+}
+
+#endregion
+
+#region UEnumEventArgs
 
 /// <summary>
 /// 
@@ -130,6 +171,52 @@ public class UEnumEventArgs : UEventArgs
     public System.Enum Value
     {
         get { return _enum; }
+    }
+
+    #endregion
+}
+
+#endregion
+
+#region UToggleEventArgs
+
+/// <summary>
+/// 
+/// </summary>
+public class UToggleEventArgs : UEventArgs
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private bool _toggled = false;
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="toggled"></param>
+    public UToggleEventArgs(object sender, bool toggled)
+        : base(sender)
+    {
+        _toggled = toggled;
+    }
+
+    #endregion
+
+    #region Public 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsToggled
+    {
+        get { return _toggled; }
     }
 
     #endregion

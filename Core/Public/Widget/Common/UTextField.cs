@@ -1,24 +1,18 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System;
 
 /// <summary>
 /// 
 /// </summary>
-public class UEnumPopupBase : UWidget
+public class UTextField : UWidget
 {
     #region Data
 
     /// <summary>
     /// 
     /// </summary>
-    protected GUIStyle _style = GUIStyle.none;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    protected System.Enum _enum = null;
-
+    protected string _text = string.Empty;
+    
     #endregion
 
     #region Event
@@ -26,7 +20,7 @@ public class UEnumPopupBase : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public event UEnumChangedEventHandler OnValueChanged;
+    public event UTextChangedEventHandler OnTextChanged;
 
     #endregion
 
@@ -35,7 +29,7 @@ public class UEnumPopupBase : UWidget
     /// <summary>
     /// 
     /// </summary>
-    protected UEnumPopupBase()
+    public UTextField()
     {
 
     }
@@ -43,9 +37,29 @@ public class UEnumPopupBase : UWidget
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="style"></param>
-    protected UEnumPopupBase(GUIStyle style)
+    /// <param name="caption"></param>
+    public UTextField(string caption)
     {
+        _caption = caption;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="style"></param>
+    protected UTextField(GUIStyle style)
+    {
+        _style = style;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="caption"></param>
+    /// <param name="style"></param>
+    protected UTextField(string caption, GUIStyle style)
+    {
+        _caption = caption;
         _style = style;
     }
 
@@ -58,24 +72,27 @@ public class UEnumPopupBase : UWidget
     /// </summary>
     public override void OnGUI()
     {
+        if (!_visible)
+            return;
+
         GUI.color = _color;
         {
             EditorGUI.BeginChangeCheck();
             {
                 if (string.IsNullOrEmpty(_caption))
                 {
-                    _enum = EditorGUILayout.EnumPopup(_enum, _style);
+                    _text = EditorGUILayout.TextField(_text, _style);
                 }
                 else
                 {
-                    _enum = EditorGUILayout.EnumPopup(_caption, _enum, _style);
+                    _text = EditorGUILayout.TextField(_caption, _text, _style);
                 }
             }
             bool changed = EditorGUI.EndChangeCheck();
 
             if (changed)
             {
-                OnValueChangedHandler();
+                OnTextChangedHandler();
             }
         }
         GUI.color = Color.white;
@@ -88,12 +105,12 @@ public class UEnumPopupBase : UWidget
     /// <summary>
     /// 
     /// </summary>
-    protected virtual void OnValueChangedHandler()
+    protected virtual void OnTextChangedHandler()
     {
-        if (OnValueChanged != null)
+        if (OnTextChanged != null)
         {
-            UEnumEventArgs args = new UEnumEventArgs(this, _enum);
-            OnValueChanged(args);
+            UTextEventArgs args = new UTextEventArgs(this, _text);
+            OnTextChanged(args);
         }
     }
 

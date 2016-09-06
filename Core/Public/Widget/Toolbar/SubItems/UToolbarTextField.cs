@@ -4,7 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UToolbarTextField : UTextFieldBase
+public class UToolbarTextField : UTextField
 {
     #region Construction
 
@@ -23,10 +23,9 @@ public class UToolbarTextField : UTextFieldBase
     /// <param name="caption"></param>
     /// <param name="alignment"></param>
     public UToolbarTextField(string caption)
-        : base(EditorStyles.toolbarTextField)
+        : base(caption, EditorStyles.toolbarTextField)
     {
         _autoSize = false;
-        _caption = caption;
     }
 
     #endregion

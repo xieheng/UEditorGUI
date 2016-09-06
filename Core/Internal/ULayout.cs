@@ -20,6 +20,9 @@ public class ULayout : UObject
     /// </summary>
     public override void OnGUI()
     {
+        if (!_visible)
+            return;
+
         BeginGUI();
         {
             for (int i = 0; i < _children.Count; i++)

@@ -4,7 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UToolbarButton : UButtonBase
+public class UToolbarButton : UButton
 {
     #region Construction
 
@@ -13,10 +13,9 @@ public class UToolbarButton : UButtonBase
     /// </summary>
     /// <param name="caption"></param>
     public UToolbarButton(string caption)
-        : base(EditorStyles.toolbarButton)
+        : base(caption, EditorStyles.toolbarButton)
     {
         _autoSize = false;
-        _caption = caption;
     }
 
     #endregion

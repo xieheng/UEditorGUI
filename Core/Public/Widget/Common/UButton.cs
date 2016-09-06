@@ -1,17 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-public class UButtonBase : UWidget
+public class UButton: UWidget
 {
-    #region Data
-
-    /// <summary>
-    /// 
-    /// </summary>
-    protected GUIStyle _style = GUIStyle.none;
-
-    #endregion
-
     #region Event
 
     /// <summary>
@@ -26,17 +17,28 @@ public class UButtonBase : UWidget
     /// <summary>
     /// 
     /// </summary>
-    protected UButtonBase()
+    public UButton()
     {
-
+        _caption = "Button";
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="style"></param>
-    protected UButtonBase(GUIStyle style)
+    /// <param name="caption"></param>
+    public UButton(string caption)
     {
+        _caption = caption;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="caption"></param>
+    /// <param name="style"></param>
+    protected UButton(string caption, GUIStyle style)
+    {
+        _caption = caption;
         _style = style;
     }
 
@@ -49,6 +51,9 @@ public class UButtonBase : UWidget
     /// </summary>
     public override void OnGUI()
     {
+        if (!_visible)
+            return;
+
         GUI.color = _color;
         {
             if (GUILayout.Button(_caption, _style))

@@ -5,7 +5,7 @@ using System;
 /// <summary>
 /// 
 /// </summary>
-public class UToolbarEnumPopup : UEnumPopupBase
+public class UToolbarEnumPopup : UEnumPopup
 {
     #region Construction
 
@@ -22,11 +22,11 @@ public class UToolbarEnumPopup : UEnumPopupBase
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="caption"></param>
     /// <param name="enumValue"></param>
     public UToolbarEnumPopup(string caption, System.Enum enumValue)
-        : base(EditorStyles.toolbarPopup)
+        : base(caption, EditorStyles.toolbarPopup)
     {
-        _caption = caption;
         _enum = enumValue;
     }
 

@@ -19,7 +19,7 @@ public abstract class UObject
     /// <summary>
     /// 
     /// </summary>
-    public bool IsVisibled
+    public bool visibled
     {
         set { _visible = value; }
         get { return _visible; }

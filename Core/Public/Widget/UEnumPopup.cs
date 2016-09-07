@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 
-public class UIntField : UWidget
+/// <summary>
+/// 
+/// </summary>
+public class UEnumPopup : UWidget
 {
     #region Data
 
     /// <summary>
     /// 
     /// </summary>
-    protected int _value = 0;
+    protected System.Enum _enum = null;
 
     #endregion
 
@@ -17,7 +21,7 @@ public class UIntField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public event UIntChangedEventHandler OnValueChanged;
+    public event UEnumChangedEventHandler OnValueChanged;
 
     #endregion
 
@@ -26,7 +30,7 @@ public class UIntField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public UIntField()
+    public UEnumPopup()
     {
 
     }
@@ -35,7 +39,7 @@ public class UIntField : UWidget
     /// 
     /// </summary>
     /// <param name="caption"></param>
-    public UIntField(string caption)
+    public UEnumPopup(string caption)
     {
         _caption = caption;
     }
@@ -43,21 +47,21 @@ public class UIntField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="initValue"></param>
-    public UIntField(int initValue)
+    /// <param name="style"></param>
+    protected UEnumPopup(GUIStyle style)
     {
-        _value = initValue;
+        _style = style;
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="caption"></param>
-    /// <param name="initValue"></param>
-    public UIntField(string caption, int initValue)
+    /// <param name="style"></param>
+    protected UEnumPopup(string caption, GUIStyle style)
     {
         _caption = caption;
-        _value = initValue;
+        _style = style;
     }
 
     #endregion
@@ -69,18 +73,14 @@ public class UIntField : UWidget
     /// </summary>
     public override void OnGUI()
     {
+        if (!_visible)
+            return;
+
         GUI.color = _color;
         {
             EditorGUI.BeginChangeCheck();
             {
-                if (string.IsNullOrEmpty(_caption))
-                {
-                    _value = EditorGUILayout.IntField(_value);
-                }
-                else
-                {
-                    _value = EditorGUILayout.IntField(_caption, _value);
-                }
+                _enum = EditorGUILayout.EnumPopup(_caption, _enum, _style);
             }
             bool changed = EditorGUI.EndChangeCheck();
 
@@ -99,11 +99,11 @@ public class UIntField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    private void OnValueChangedHandler()
+    protected virtual void OnValueChangedHandler()
     {
         if (OnValueChanged != null)
         {
-            UIntEventArgs args = new UIntEventArgs(this, _value);
+            UEnumEventArgs args = new UEnumEventArgs(this, _enum);
             OnValueChanged(args);
         }
     }

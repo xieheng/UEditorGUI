@@ -78,27 +78,13 @@ public class UTextField : UWidget
         {
             EditorGUI.BeginChangeCheck();
             {
-                if (string.IsNullOrEmpty(_caption))
+                if (_style == GUIStyle.none)
                 {
-                    if (_style == GUIStyle.none)
-                    {
-                        _text = EditorGUILayout.TextField(_text);
-                    }
-                    else
-                    {
-                        _text = EditorGUILayout.TextField(_text, _style);
-                    }
+                    _text = EditorGUILayout.TextField(_caption, _text);
                 }
                 else
                 {
-                    if (_style == GUIStyle.none)
-                    {
-                        _text = EditorGUILayout.TextField(_caption, _text);
-                    }
-                    else
-                    {
-                        _text = EditorGUILayout.TextField(_caption, _text, _style);
-                    }
+                    _text = EditorGUILayout.TextField(_caption, _text, _style);
                 }
             }
             bool changed = EditorGUI.EndChangeCheck();

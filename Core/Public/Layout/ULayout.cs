@@ -13,6 +13,18 @@ public class ULayout : UObject
 
     #endregion
 
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected ULayout()
+    {
+
+    }
+
+    #endregion
+
     #region Override
 
     /// <summary>

@@ -29,7 +29,7 @@ public abstract class UWidget : UControl
     /// <summary>
     /// 
     /// </summary>
-    public string Caption
+    public string caption
     {
         set { _caption = value; }
         get { return _caption; }
@@ -38,7 +38,7 @@ public abstract class UWidget : UControl
     /// <summary>
     /// 
     /// </summary>
-    public Color Color
+    public Color color
     {
         set { _color = value; }
         get { return _color; }
@@ -47,7 +47,7 @@ public abstract class UWidget : UControl
     /// <summary>
     /// 
     /// </summary>
-    public bool IsAutoSize
+    public bool autoSize
     {
         set 
         {

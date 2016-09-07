@@ -109,14 +109,7 @@ public class UIntPopup : UWidget
         {
             EditorGUI.BeginChangeCheck();
             {
-                if (string.IsNullOrEmpty(_caption))
-                {
-                    _value = EditorGUILayout.IntPopup(_value, _texts, _values);
-                }
-                else
-                {
-                    _value = EditorGUILayout.IntPopup(_caption, _value, _texts, _values);
-                }
+                _value = EditorGUILayout.IntPopup(_caption, _value, _texts, _values);
             }
             bool changed = EditorGUI.EndChangeCheck();
 

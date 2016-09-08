@@ -18,6 +18,11 @@ public class UTreeViewItem
     /// <summary>
     /// 
     /// </summary>
+    protected int _depth = 0;
+
+    /// <summary>
+    /// 
+    /// </summary>
     protected List<UTreeViewItemImp> _children = new List<UTreeViewItemImp>();
 
     #endregion
@@ -30,8 +35,7 @@ public class UTreeViewItem
     /// <param name="child"></param>
     public UTreeViewItem Add(string text)
     {
-        UTreeViewItemImp child = new UTreeViewItemImp();
-        child._text = text;
+        UTreeViewItemImp child = new UTreeViewItemImp(text, _depth + 1);
         _children.Add(child);
 
         return child;

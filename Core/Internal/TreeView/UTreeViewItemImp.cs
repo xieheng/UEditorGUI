@@ -35,7 +35,26 @@ namespace UEditorGUI.Internal.TreeView
         /// <summary>
         /// 
         /// </summary>
-        private const int NO_TOGGLE_INDENT = 12;
+        private const int INDENT_SPACE = 16;
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        private const int IMAGE_SPACE = 16;
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        public UTreeViewItemImp(string text, int depth)
+        {
+            _text = text;
+            _depth = depth;
+        }
 
         #endregion
 
@@ -119,14 +138,16 @@ namespace UEditorGUI.Internal.TreeView
 
             _rect = EditorGUILayout.BeginHorizontal(style, GUILayout.ExpandWidth(true));
             {
+                int indent = _depth * INDENT_SPACE;
+
                 if (_children.Count == 0)
                 {
-                    GUILayout.Space(NO_TOGGLE_INDENT);
+                    GUILayout.Space(indent + IMAGE_SPACE);
                 }
                 else
                 {
-                    GUILayout.Space(0);
-                    bool fold = !GUILayout.Toggle(true, string.Empty, UEditorStylesHelper.GetStyle("TreeviewItemFoldout"));
+                    GUILayout.Space(indent);
+                    _foldout = GUILayout.Toggle(_foldout, string.Empty, UEditorStylesHelper.GetStyle("TreeviewItemFoldout"));
                 }
 
                 GUILayout.Label(_text);
@@ -139,6 +160,9 @@ namespace UEditorGUI.Internal.TreeView
         /// </summary>
         private void DrawChildren()
         {
+            if (!_foldout)
+                return;
+
             for (int i = 0; i < _children.Count; i++)
             {
                 UTreeViewItemImp child = _children[i];

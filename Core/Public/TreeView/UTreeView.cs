@@ -57,7 +57,7 @@ public class UTreeView : UControl
     /// <param name="child"></param>
     public UTreeViewItem Add(string text)
     {
-        UTreeViewItemImp child = new UTreeViewItemImp();
+        UTreeViewItemImp child = new UTreeViewItemImp(text, 0);
         _children.Add(child);
 
         return child;

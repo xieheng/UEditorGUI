@@ -88,13 +88,36 @@ public class WindowDemo : UWindow
             UTreeView treeView = new UTreeView();
             AddWidget(treeView);
 
-            treeView.Add("0");
-            treeView.Add("1");
-            treeView.Add("2");
-            treeView.Add("3");
-            treeView.Add("4");
-            treeView.Add("5");
-            treeView.Add("6");
+            UTreeViewItem item0 = treeView.Add("0");
+            UTreeViewItem child00 = item0.Add("0.0");
+            child00.Add("0.0.0");
+            UTreeViewItem child01 = item0.Add("0.1");
+            child00.Add("0.0.1");
+
+            UTreeViewItem item1 = treeView.Add("1");
+            item1.Add("1.0");
+            item1.Add("1.1");
+
+            UTreeViewItem item2 = treeView.Add("2");
+            item2.Add("2.0");
+            item2.Add("2.1");
+
+            UTreeViewItem item3 = treeView.Add("3");
+            item3.Add("3.0");
+            item3.Add("3.1");
+
+            UTreeViewItem item4 = treeView.Add("4");
+            item4.Add("4.0");
+            item4.Add("4.1");
+
+            UTreeViewItem item5 = treeView.Add("5");
+            item5.Add("5.0");
+            item5.Add("5.1");
+
+            UTreeViewItem item6 = treeView.Add("6");
+            item6.Add("6.0");
+            item6.Add("6.1");
+
             treeView.Add("7");
             treeView.Add("8");
             treeView.Add("9");

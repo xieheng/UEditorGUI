@@ -17,6 +17,6 @@ namespace UEditorGUI.Internal.Styles
         /// <summary>
         /// 
         /// </summary>
-        public List<GUISkin> skins = new List<GUISkin>();
+        public List<GUIStyle> styles = new List<GUIStyle>();
     }
 }

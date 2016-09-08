@@ -15,7 +15,7 @@ namespace UEditorGUI.Internal.Styles
         /// <summary>
         /// 
         /// </summary>
-        private Dictionary<string, GUISkin> skinMap = new Dictionary<string, GUISkin>();
+        private Dictionary<string, GUIStyle> styleMap = new Dictionary<string, GUIStyle>();
 
         /// <summary>
         /// 
@@ -34,7 +34,7 @@ namespace UEditorGUI.Internal.Styles
         /// <summary>
         /// 
         /// </summary>
-        public static UEditorStylesHelper Instance
+        private static UEditorStylesHelper Instance
         {
             get
             {
@@ -57,9 +57,9 @@ namespace UEditorGUI.Internal.Styles
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public GUISkin GetSkin(string name)
+        public static GUIStyle GetStyle(string name)
         {
-            return skinMap[name];
+            return Instance.styleMap[name];
         }
 
         /// <summary>
@@ -67,9 +67,9 @@ namespace UEditorGUI.Internal.Styles
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Texture2D GetIcon(string name)
+        public static Texture2D GetIcon(string name)
         {
-            return iconMap[name];
+            return Instance.iconMap[name];
         }
 
         #endregion
@@ -81,7 +81,7 @@ namespace UEditorGUI.Internal.Styles
         /// </summary>
         private void Load()
         {
-            UEditorStyles styles = AssetDatabase.LoadAssetAtPath("", typeof(UEditorStyles)) as UEditorStyles;
+            UEditorStyles styles = AssetDatabase.LoadAssetAtPath("Assets/Editor/UEditorGUI/Core/Internal/Styles/UEditorStyles.asset", typeof(UEditorStyles)) as UEditorStyles;
 
             if (styles == null)
             {
@@ -89,9 +89,9 @@ namespace UEditorGUI.Internal.Styles
                 return;
             }
 
-            foreach (GUISkin skin in styles.skins)
+            foreach (GUIStyle style in styles.styles)
             {
-                skinMap.Add(skin.name, skin);
+                styleMap.Add(style.name, style);
             }
 
             foreach (Texture2D icon in styles.icons)

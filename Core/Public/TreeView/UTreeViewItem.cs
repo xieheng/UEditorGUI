@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using UEditorGUI.Internal.TreeView;
 
 /// <summary>
 /// 
@@ -12,17 +13,12 @@ public class UTreeViewItem
     /// <summary>
     /// 
     /// </summary>
-    private bool _foldout = true;
+    protected string _text = "TreeView Item";
 
     /// <summary>
     /// 
     /// </summary>
-    private string _text = "TreeView Item";
-
-    /// <summary>
-    /// 
-    /// </summary>
-    private List<UTreeViewItem> _children = new List<UTreeViewItem>();
+    protected List<UTreeViewItemImp> _children = new List<UTreeViewItemImp>();
 
     #endregion
 
@@ -31,13 +27,49 @@ public class UTreeViewItem
     /// <summary>
     /// 
     /// </summary>
-    public void OnGUI()
+    /// <param name="child"></param>
+    public UTreeViewItem Add(string text)
     {
-        for (int i = 0; i < _children.Count; i++)
-        {
-            UTreeViewItem child = _children[i];
-            child.OnGUI();
-        }
+        UTreeViewItemImp child = new UTreeViewItemImp();
+        child._text = text;
+        _children.Add(child);
+
+        return child;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="index"></param>
+    public void RemoveAt(int index)
+    {
+        _children.RemoveAt(index);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void Clear()
+    {
+        _children.Clear();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int Count
+    {
+        get { return _children.Count; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public UTreeViewItem this[int index]
+    {
+        get { return _children[index]; }
     }
 
     #endregion

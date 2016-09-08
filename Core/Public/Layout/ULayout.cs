@@ -54,7 +54,7 @@ public class ULayout : UObject
     /// Add a widget into
     /// </summary>
     /// <param name="widget"></param>
-    public void AddWidget(UWidget widget)
+    public void AddWidget(UControl widget)
     {
         if (widget != null)
         {
@@ -71,6 +71,28 @@ public class ULayout : UObject
         if (layout != null)
         {
             _children.Add(layout);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void OnFocus()
+    {
+        foreach (UControl c in _children)
+        {
+            c.OnFocus();
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void LostFocus()
+    {
+        foreach (UControl c in _children)
+        {
+            c.LostFocus();
         }
     }
 

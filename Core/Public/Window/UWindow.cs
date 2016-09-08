@@ -41,6 +41,24 @@ public class UWindow : EditorWindow
         get { return _toolbar; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="widget"></param>
+    public void AddWidget(UControl widget)
+    {
+        _layout.AddWidget(widget);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="layout"></param>
+    public void AddLayout(ULayout layout)
+    {
+        _layout.AddLayout(layout);
+    }
+
     #endregion
 
     #region Private
@@ -68,7 +86,7 @@ public class UWindow : EditorWindow
     /// </summary>
     private void OnFocus()
     {
-
+        _layout.OnFocus();
     }
 
     /// <summary>
@@ -76,7 +94,7 @@ public class UWindow : EditorWindow
     /// </summary>
     private void OnLostFocus()
     {
-
+        _layout.LostFocus();
     }
 
     /// <summary>

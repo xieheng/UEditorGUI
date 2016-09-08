@@ -82,6 +82,23 @@ public class WindowDemo : UWindow
                 searchFiled.OnTextChanged += OnSerachTextChangedHander;
             }
         }
+
+        //treeview
+        {
+            UTreeView treeView = new UTreeView();
+            AddWidget(treeView);
+
+            treeView.Add("0");
+            treeView.Add("1");
+            treeView.Add("2");
+            treeView.Add("3");
+            treeView.Add("4");
+            treeView.Add("5");
+            treeView.Add("6");
+            treeView.Add("7");
+            treeView.Add("8");
+            treeView.Add("9");
+        }
     }
 
     #endregion

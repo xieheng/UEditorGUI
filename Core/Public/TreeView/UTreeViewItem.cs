@@ -23,6 +23,11 @@ public class UTreeViewItem
     /// <summary>
     /// 
     /// </summary>
+    protected bool _foldout = false;
+    
+    /// <summary>
+    /// 
+    /// </summary>
     protected int _depth = 0;
 
     /// <summary>
@@ -68,22 +73,27 @@ public class UTreeViewItem
     /// <param name="child"></param>
     public bool Remove(UTreeViewItemImp item)
     {
+        bool removed = false;
+
         if (_children.Contains(item))
         {
             _children.Remove(item);
-            return true;
+            removed = true;
         }
-     
-        foreach (UTreeViewItemImp child in _children)
+        else
         {
-            bool removed = child.Remove(item);
-            if (removed)
+            foreach (UTreeViewItemImp child in _children)
             {
-                return true;
+                removed = child.Remove(item);
             }
         }
 
-        return false;
+        if (_children.Count == 0)
+        {
+            _foldout = false;
+        }
+
+        return removed;
     }
 
     /// <summary>
@@ -93,6 +103,10 @@ public class UTreeViewItem
     public void RemoveAt(int index)
     {
         _children.RemoveAt(index);
+        if (_children.Count == 0)
+        {
+            _foldout = false;
+        }
     }
 
     /// <summary>
@@ -124,9 +138,9 @@ public class UTreeViewItem
     /// <summary>
     /// 
     /// </summary>
-    public virtual UTreeViewItem Parent
+    public UTreeViewItem Parent
     {
-        get { return null;}
+        get { return _parent;}
     }
 
     #endregion

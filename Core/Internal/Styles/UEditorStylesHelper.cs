@@ -81,20 +81,22 @@ namespace UEditorGUI.Internal.Styles
         /// </summary>
         private void Load()
         {
-            UEditorStyles styles = AssetDatabase.LoadAssetAtPath("Assets/Editor/UEditorGUI/Core/Internal/Styles/UEditorStyles.asset", typeof(UEditorStyles)) as UEditorStyles;
+            UEditorStyles assets = AssetDatabase.LoadAssetAtPath("Assets/Editor/UEditorGUI/Core/Internal/Styles/UEditorStyles.asset", typeof(UEditorStyles)) as UEditorStyles;
 
-            if (styles == null)
+            if (assets == null)
             {
                 Debug.LogError("Load styles of editor gui failed");
                 return;
             }
 
-            foreach (GUIStyle style in styles.styles)
+            List<GUIStyle> styles = EditorGUIUtility.isProSkin ? assets.styles : assets.stylesDark;
+
+            foreach (GUIStyle style in styles)
             {
                 styleMap.Add(style.name, style);
             }
 
-            foreach (Texture2D icon in styles.icons)
+            foreach (Texture2D icon in assets.icons)
             {
                 iconMap.Add(icon.name, icon);
             }

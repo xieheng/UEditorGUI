@@ -172,17 +172,24 @@ public class UTreeView : UControl
     /// </summary>
     private void ProcessKeyboardEvent()
     {
+        if (_children.Count == 0)
+            return;
+
         if (Event.current.type == EventType.KeyDown)
         {
             switch (Event.current.keyCode)
             {
                 case KeyCode.DownArrow:
+                    ProcessDownArrayKey();
                     break;
                 case KeyCode.UpArrow:
+                    ProcessUpArrayKey();
                     break;
                 case KeyCode.LeftArrow:
+                    ProcessLeftArrayKey();
                     break;
                 case KeyCode.RightArrow:
+                    ProcessRightArrayKey();
                     break;
             }
 
@@ -193,82 +200,301 @@ public class UTreeView : UControl
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="item"></param>
+    private void ProcessDownArrayKey()
+    {
+        UTreeViewItemImp next = null;
+
+        if (_selected.Count == 0)
+        {
+            next = _children[0];
+        }
+        else
+        {
+            UTreeViewItemImp current = _selected[_selected.Count - 1];
+
+            if (current.IsFoldout)
+            {
+                next = MoveNext(current);
+            }
+            else
+            {
+                next = MoveNextInParent(current);
+            }
+        }
+
+        if (next != null)
+        {
+            ClearSelectedList();
+
+            next.IsSelected = true;
+            _selected.Add(next);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    private UTreeViewItemImp MoveNext(UTreeViewItemImp item)
+    {
+        if (item.Count > 0)
+        {
+            return item[0] as UTreeViewItemImp;
+        }
+
+        return item;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    private UTreeViewItemImp MoveNextInParent(UTreeViewItemImp item)
+    {
+        UTreeViewItemImp parent = item.Parent as UTreeViewItemImp;
+
+        if (parent == null)//root node
+        {
+            int index = _children.IndexOf(item);
+            if (index < _children.Count - 1)
+            {
+                return _children[index + 1];
+            }
+        }
+        else//child node
+        {
+            int index = parent.IndexOf(item);
+            if (index < parent.Count - 1)
+            {
+                return parent[index + 1] as UTreeViewItemImp;
+            }
+            else
+            {
+                return MoveNextInParent(parent);
+            }
+        }
+
+        return item;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    private void ProcessUpArrayKey()
+    {
+        UTreeViewItemImp prev = null;
+
+        if (_selected.Count == 0)
+        {
+            prev = _children[0];
+        }
+        else
+        {
+            UTreeViewItemImp current = _selected[0];
+            UTreeViewItemImp parent = current.Parent as UTreeViewItemImp;
+
+            if (parent == null)//root node
+            {
+                int index = _children.IndexOf(current);
+                if (index > 0)
+                {
+                    prev = _children[index - 1];
+
+                    if (prev.Count > 0 && prev.IsFoldout)
+                    {
+                        prev = prev[prev.Count - 1] as UTreeViewItemImp;
+                    }
+                }
+            }
+            else//child node
+            {
+                int index = parent.IndexOf(current);
+                if (index > 0)
+                {
+                    prev = parent[index - 1] as UTreeViewItemImp;
+
+                    if (prev.Count > 0 && prev.IsFoldout)
+                    {
+                        prev = prev[prev.Count - 1] as UTreeViewItemImp;
+                    }
+                }
+                else
+                {
+                    prev = parent;
+                }
+            }
+        }
+
+        if (prev != null)
+        {
+            ClearSelectedList();
+
+            prev.IsSelected = true;
+            _selected.Add(prev);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    private void ProcessLeftArrayKey()
+    {
+        if (_selected.Count == 0)
+            return;
+
+        UTreeViewItemImp current = _selected[_selected.Count - 1];
+
+        if (current.IsFoldout)
+        {
+            current.IsFoldout = false;
+        }
+        else
+        {
+            UTreeViewItemImp parent = current.Parent as UTreeViewItemImp;
+
+            if (parent != null)
+            {
+                ClearSelectedList();
+
+                parent.IsSelected = true;
+                _selected.Add(parent);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    private void ProcessRightArrayKey()
+    {
+        if (_selected.Count == 0)
+            return;
+
+        UTreeViewItemImp current = _selected[_selected.Count - 1];
+        if (current.Count == 0)
+            return;
+
+        if (!current.IsFoldout)
+        {
+            current.IsFoldout = true;
+        }
+        else
+        {
+            ClearSelectedList();
+
+            UTreeViewItemImp child = current[0] as UTreeViewItemImp;
+            child.IsSelected = true;
+
+            _selected.Add(child);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     private void ProcessMouseEvent()
     {
         if (Event.current.type == EventType.MouseUp)
         {
-            UTreeViewItemImp curSelected = null;
-            Vector2 mousePt = Event.current.mousePosition - new Vector2(_rect.x, _rect.y);
-
-            foreach (UTreeViewItemImp child in _children)
+            if (Event.current.button == 0)
             {
-                curSelected = child.HitChild(mousePt);
-                if (curSelected != null)
-                {
-                    break;
-                }
+                ProcessLeftMouseButton();
             }
-
-            if (curSelected == null)
+            else if (Event.current.button == 1)
             {
-                ClearSelectedList();
-                Event.current.Use();
-
-                return;
+                ProcessRightMouseButton();
             }
-           
-            if (Event.current.shift)
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void ProcessLeftMouseButton()
+    {
+        UTreeViewItemImp curSelected = null;
+        Vector2 mousePt = Event.current.mousePosition - new Vector2(_rect.x, _rect.y);
+
+        foreach (UTreeViewItemImp child in _children)
+        {
+            curSelected = child.HitChild(mousePt);
+            if (curSelected != null)
             {
-                if (_selected.Count == 0)
-                {
-                    curSelected.IsSelected = true;
-                    _selected.Add(curSelected);
-                }
-                else
-                {
-                    List<UTreeViewItemImp> list = GetItemsInChildren();
-
-                    UTreeViewItemImp first = _selected[0];
-
-                    int firstIndex = list.IndexOf(first);
-                    int currentIndex = list.IndexOf(curSelected);
-
-                    int index = Mathf.Min(firstIndex, currentIndex);
-                    int count = Mathf.Abs(firstIndex - currentIndex) + 1;
-
-                    List<UTreeViewItemImp> selectedList = list.GetRange(index, count);
-                    _selected.Clear();
-
-                    foreach (UTreeViewItemImp child in selectedList)
-                    {
-                        child.IsSelected = true;
-                    }
-                    _selected.AddRange(selectedList);
-                }
+                break;
             }
-            else if (Event.current.control)
-            {
-                if (_selected.Contains(curSelected))
-                {
-                    curSelected.IsSelected = false;
-                    _selected.Remove(curSelected);
-                }
-                else
-                {
-                    curSelected.IsSelected = true;
-                    _selected.Add(curSelected);
-                }
-            }
-            else 
-            {
-                ClearSelectedList();
+        }
 
+        if (curSelected == null)
+        {
+            ClearSelectedList();
+            Event.current.Use();
+
+            return;
+        }
+       
+        if (Event.current.shift)
+        {
+            if (_selected.Count == 0)
+            {
                 curSelected.IsSelected = true;
                 _selected.Add(curSelected);
             }
+            else
+            {
+                List<UTreeViewItemImp> list = GetItemsInChildren();
 
-            Event.current.Use();
+                UTreeViewItemImp first = _selected[0];
+
+                int firstIndex = list.IndexOf(first);
+                int currentIndex = list.IndexOf(curSelected);
+
+                int index = Mathf.Min(firstIndex, currentIndex);
+                int count = Mathf.Abs(firstIndex - currentIndex) + 1;
+
+                List<UTreeViewItemImp> selectedList = list.GetRange(index, count);
+                _selected.Clear();
+
+                foreach (UTreeViewItemImp child in selectedList)
+                {
+                    child.IsSelected = true;
+                }
+                _selected.AddRange(selectedList);
+            }
         }
+        else if (Event.current.control)
+        {
+            if (_selected.Contains(curSelected))
+            {
+                curSelected.IsSelected = false;
+                _selected.Remove(curSelected);
+            }
+            else
+            {
+                curSelected.IsSelected = true;
+                _selected.Add(curSelected);
+            }
+        }
+        else 
+        {
+            ClearSelectedList();
+
+            curSelected.IsSelected = true;
+            _selected.Add(curSelected);
+        }
+
+        Event.current.Use();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void ProcessRightMouseButton()
+    {
+
     }
 
     /// <summary>

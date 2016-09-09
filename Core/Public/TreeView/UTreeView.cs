@@ -20,6 +20,11 @@ public class UTreeView : UControl
     /// </summary>
     private List<UTreeViewItemImp> _children = new List<UTreeViewItemImp>();
 
+    /// <summary>
+    /// 
+    /// </summary>
+    private List<UTreeViewItemImp> _selected = new List<UTreeViewItemImp>();
+
     #endregion
 
     #region Override
@@ -117,12 +122,67 @@ public class UTreeView : UControl
     /// </summary>
     private void ProcessKeyboardEvent()
     {
+        if (Event.current.type == EventType.KeyDown)
+        {
+            switch (Event.current.keyCode)
+            {
+                case KeyCode.DownArrow:
+                    break;
+                case KeyCode.UpArrow:
+                    break;
+                case KeyCode.LeftArrow:
+                    break;
+                case KeyCode.RightArrow:
+                    break;
+            }
+        }
 
+        //Event.current.Use();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void ProcessMouseEvent()
     {
+        if (Event.current.type == EventType.MouseUp)
+        {
+            UTreeViewItemImp curSelected = null;
 
+            foreach (UTreeViewItemImp item in _children)
+            {
+                if (item.IsContains(Event.current.mousePosition))
+                {
+                    curSelected = item;
+                    break;
+                }
+            }
+
+            if (curSelected == null)
+            {
+                _selected.Clear();
+            }
+            else if (Event.current.control)
+            {
+
+            }
+            else if (Event.current.shift)
+            {
+
+            }
+            else
+            {
+                _selected.Clear();
+            }
+
+            if (curSelected != null)
+            {
+                curSelected.IsSelected = true;
+                _selected.Add(curSelected);
+            }
+        }
+
+        //Event.current.Use();
     }
 
     #endregion

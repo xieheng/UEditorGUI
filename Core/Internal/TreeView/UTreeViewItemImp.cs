@@ -136,7 +136,7 @@ namespace UEditorGUI.Internal.TreeView
                 }
             }
 
-            _rect = EditorGUILayout.BeginHorizontal(style, GUILayout.ExpandWidth(true));
+            _rect = EditorGUILayout.BeginHorizontal(style);
             {
                 int indent = _depth * INDENT_SPACE;
 

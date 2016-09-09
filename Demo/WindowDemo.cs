@@ -11,7 +11,7 @@ public class WindowDemo : UWindow
     /// <summary>
     /// 
     /// </summary>
-    [MenuItem("Window/Demo")]
+    [MenuItem("Window/UEditorGUI Demo")]
     public static void Init()
     {
         ShowWindow<WindowDemo>();

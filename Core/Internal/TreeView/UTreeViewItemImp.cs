@@ -50,10 +50,11 @@ namespace UEditorGUI.Internal.TreeView
         /// 
         /// </summary>
         /// <param name="text"></param>
-        public UTreeViewItemImp(string text, int depth)
+        /// <param name="parent"></param>
+        public UTreeViewItemImp(string text, UTreeViewItem parent = null)
+            : base(text, parent)
         {
-            _text = text;
-            _depth = depth;
+
         }
 
         #endregion
@@ -63,28 +64,33 @@ namespace UEditorGUI.Internal.TreeView
         /// <summary>
         /// 
         /// </summary>
-        public bool IsContains(Vector2 pt)
-        {
-            return _rect.Contains(pt);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="child"></param>
-        /// <returns></returns>
-        public int IndexOf(UTreeViewItemImp child)
-        {
-            return _children.IndexOf(child);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public bool IsSelected
         {
             set { _selected = value; }
-            get { return _selected; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        public void FillChildrenInto(List<UTreeViewItemImp> list)
+        {
+            if (_foldout)
+            {
+                foreach (UTreeViewItemImp child in _children)
+                {
+                    list.Add(child);
+                    child.FillChildrenInto(list);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<UTreeViewItemImp> Children
+        {
+            get { return _children; }
         }
 
         /// <summary>
@@ -92,6 +98,11 @@ namespace UEditorGUI.Internal.TreeView
         /// </summary>
         public void OnFocus()
         {
+            foreach (UTreeViewItemImp child in _children)
+            {
+                child.OnFocus();
+            }
+
             _focus = true;
         }
 
@@ -100,6 +111,11 @@ namespace UEditorGUI.Internal.TreeView
         /// </summary>
         public void LostFocus()
         {
+            foreach (UTreeViewItemImp child in _children)
+            {
+                child.LostFocus();
+            }
+
             _focus = false;
         }
 
@@ -110,6 +126,28 @@ namespace UEditorGUI.Internal.TreeView
         {
             Draw();
             DrawChildren();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        public UTreeViewItemImp HitChild(Vector2 pt)
+        {
+            if (_rect.Contains(pt))
+                return this;
+
+            foreach(UTreeViewItemImp child in _children)
+            {
+                UTreeViewItemImp hit = child.HitChild(pt);
+                if (hit != null)
+                {
+                    return hit;
+                }
+            }
+
+            return null;
         }
 
         #endregion

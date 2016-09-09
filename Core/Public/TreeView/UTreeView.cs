@@ -25,6 +25,11 @@ public class UTreeView : UControl
     /// </summary>
     private List<UTreeViewItemImp> _selected = new List<UTreeViewItemImp>();
 
+    /// <summary>
+    /// 
+    /// </summary>
+    private Rect _rect = new Rect();
+
     #endregion
 
     #region Override
@@ -32,9 +37,35 @@ public class UTreeView : UControl
     /// <summary>
     /// 
     /// </summary>
+    public override void OnFocus()
+    {
+        foreach (UTreeViewItemImp child in _children)
+        {
+            child.OnFocus();
+        }
+
+        base.OnFocus();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public override void LostFocus()
+    {
+        foreach (UTreeViewItemImp child in _children)
+        {
+            child.LostFocus();
+        }
+
+        base.LostFocus();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public override void OnGUI()
     {
-        EditorGUILayout.BeginVertical(/*EditorStyles.textArea*/);
+        _rect = EditorGUILayout.BeginVertical(/*EditorStyles.textArea*/);
         {
             _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos, GUILayout.ExpandHeight(true));
             {
@@ -62,7 +93,7 @@ public class UTreeView : UControl
     /// <param name="child"></param>
     public UTreeViewItem Add(string text)
     {
-        UTreeViewItemImp child = new UTreeViewItemImp(text, 0);
+        UTreeViewItemImp child = new UTreeViewItemImp(text);
         _children.Add(child);
 
         return child;
@@ -72,10 +103,25 @@ public class UTreeView : UControl
     /// 
     /// </summary>
     /// <param name="child"></param>
-    public void Remove(UTreeViewItem child)
+    public void Remove(UTreeViewItem item)
     {
-        UTreeViewItemImp childImp = child as UTreeViewItemImp;
-        _children.Remove(childImp);
+        UTreeViewItemImp itemImp = item as UTreeViewItemImp;
+        _selected.Remove(itemImp);
+
+        if (_children.Contains(itemImp))
+        {
+            _children.Remove(itemImp);
+        }
+        else
+        {
+            foreach(UTreeViewItemImp child in _children)
+            {
+                if (child.Remove(itemImp))
+                {
+                    break;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -84,6 +130,9 @@ public class UTreeView : UControl
     /// <param name="index"></param>
     public void RemoveAt(int index)
     {
+        UTreeViewItemImp item = _children[index];
+        _selected.Remove(item);
+
         _children.RemoveAt(index);
     }
 
@@ -92,6 +141,7 @@ public class UTreeView : UControl
     /// </summary>
     public void Clear()
     {
+        ClearSelectedList();
         _children.Clear();
     }
 
@@ -135,9 +185,9 @@ public class UTreeView : UControl
                 case KeyCode.RightArrow:
                     break;
             }
-        }
 
-        //Event.current.Use();
+            Event.current.Use();
+        }
     }
 
     /// <summary>
@@ -148,41 +198,108 @@ public class UTreeView : UControl
         if (Event.current.type == EventType.MouseUp)
         {
             UTreeViewItemImp curSelected = null;
+            Vector2 mousePt = Event.current.mousePosition - new Vector2(_rect.x, _rect.y);
 
-            foreach (UTreeViewItemImp item in _children)
+            foreach (UTreeViewItemImp child in _children)
             {
-                if (item.IsContains(Event.current.mousePosition))
+                curSelected = child.HitChild(mousePt);
+                if (curSelected != null)
                 {
-                    curSelected = item;
                     break;
                 }
             }
 
             if (curSelected == null)
             {
-                _selected.Clear();
+                ClearSelectedList();
+                Event.current.Use();
+
+                return;
+            }
+           
+            if (Event.current.shift)
+            {
+                if (_selected.Count == 0)
+                {
+                    curSelected.IsSelected = true;
+                    _selected.Add(curSelected);
+                }
+                else
+                {
+                    List<UTreeViewItemImp> list = GetItemsInChildren();
+
+                    UTreeViewItemImp first = _selected[0];
+
+                    int firstIndex = list.IndexOf(first);
+                    int currentIndex = list.IndexOf(curSelected);
+
+                    int index = Mathf.Min(firstIndex, currentIndex);
+                    int count = Mathf.Abs(firstIndex - currentIndex) + 1;
+
+                    List<UTreeViewItemImp> selectedList = list.GetRange(index, count);
+                    _selected.Clear();
+
+                    foreach (UTreeViewItemImp child in selectedList)
+                    {
+                        child.IsSelected = true;
+                    }
+                    _selected.AddRange(selectedList);
+                }
             }
             else if (Event.current.control)
             {
-
+                if (_selected.Contains(curSelected))
+                {
+                    curSelected.IsSelected = false;
+                    _selected.Remove(curSelected);
+                }
+                else
+                {
+                    curSelected.IsSelected = true;
+                    _selected.Add(curSelected);
+                }
             }
-            else if (Event.current.shift)
+            else 
             {
+                ClearSelectedList();
 
-            }
-            else
-            {
-                _selected.Clear();
-            }
-
-            if (curSelected != null)
-            {
                 curSelected.IsSelected = true;
                 _selected.Add(curSelected);
             }
+
+            Event.current.Use();
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void ClearSelectedList()
+    {
+        foreach (UTreeViewItemImp child in _selected)
+        {
+            child.IsSelected = false;
         }
 
-        //Event.current.Use();
+        _selected.Clear();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="child"></param>
+    /// <returns></returns>
+    private List<UTreeViewItemImp> GetItemsInChildren()
+    {
+        List<UTreeViewItemImp> list = new List<UTreeViewItemImp>();
+
+        foreach (UTreeViewItemImp child in _children)
+        {
+            list.Add(child);
+            child.FillChildrenInto(list);
+        }
+
+        return list;
     }
 
     #endregion

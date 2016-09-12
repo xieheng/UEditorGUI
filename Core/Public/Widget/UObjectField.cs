@@ -20,6 +20,15 @@ public class UObjectField : UWidget
 
     #endregion
 
+    #region Event
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public event UObjectChangedEventHandler OnObjectChanged;
+
+    #endregion
+
     #region Construction
 
     /// <summary>
@@ -76,7 +85,11 @@ public class UObjectField : UWidget
     /// </summary>
     private void OnObjectChangedHandler()
     {
-
+        if (OnObjectChanged != null)
+        {
+            UObjectEventArgs args = new UObjectEventArgs(this, _object);
+            OnObjectChanged(args);
+        }
     }
 
     #endregion

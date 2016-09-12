@@ -15,6 +15,56 @@ public class UColorField : UWidget
 
     #endregion
 
+    #region Event
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public event UColorChangedEventHandler OnColorChanged;
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public UColorField()
+    {
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="caption"></param>
+    public UColorField(string caption)
+    {
+        _caption = caption;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="bounds"></param>
+    public UColorField(Color color)
+    {
+        _value = color;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="caption"></param>
+    /// <param name="bounds"></param>
+    public UColorField(string caption, Color color)
+    {
+        _caption = caption;
+        _value = color;
+    }
+
+    #endregion
+
     #region Override
 
     /// <summary>
@@ -47,7 +97,11 @@ public class UColorField : UWidget
     /// </summary>
     private void OnColorChangedHandler()
     {
-
+        if (OnColorChanged != null)
+        {
+            UColorEventArgs args = new UColorEventArgs(this, _value);
+            OnColorChanged(args);
+        }
     }
 
     #endregion

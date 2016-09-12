@@ -223,3 +223,141 @@ public class UToggleEventArgs : UEventArgs
 }
 
 #endregion
+
+#region UObjectEventArgs
+
+/// <summary>
+/// 
+/// </summary>
+public class UObjectEventArgs : UEventArgs
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private System.Object _object = null;
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="color"></param>
+    public UObjectEventArgs(object sender, System.Object value)
+        : base(sender)
+    {
+        _object = value;
+    }
+
+    #endregion
+
+    #region Public
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public System.Object Object
+    {
+        get { return _object; }
+    }
+
+    #endregion
+}
+
+#endregion
+
+#region UBoundsEventArgs
+
+/// <summary>
+/// 
+/// </summary>
+public class UBoundsEventArgs : UEventArgs
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private Bounds _bounds = new Bounds();
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="color"></param>
+    public UBoundsEventArgs(object sender, Bounds bounds)
+        : base(sender)
+    {
+        _bounds = bounds;
+    }
+
+    #endregion
+
+    #region Public 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public Bounds Bounds
+    {
+        get { return _bounds; }
+    }
+
+    #endregion
+}
+
+#endregion
+
+#region UColorEventArgs
+
+/// <summary>
+/// 
+/// </summary>
+public class UColorEventArgs : UEventArgs
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private Color _color = Color.white;
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="color"></param>
+    public UColorEventArgs(object sender, Color color)
+        : base(sender)
+    {
+        _color = color;
+    }
+
+    #endregion
+
+    #region Public 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public Color Color
+    {
+        get { return _color; }
+    }
+
+    #endregion
+}
+
+#endregion

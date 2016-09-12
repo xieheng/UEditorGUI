@@ -18,5 +18,10 @@ namespace UEditorGUI.Internal.Styles
         /// 
         /// </summary>
         public List<GUIStyle> styles = new List<GUIStyle>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<GUIStyle> stylesDark = new List<GUIStyle>();
     }
 }

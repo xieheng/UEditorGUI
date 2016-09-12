@@ -15,11 +15,6 @@ namespace UEditorGUI.Internal.TreeView
         /// <summary>
         /// 
         /// </summary>
-        private bool _foldout = true;
-
-        /// <summary>
-        /// 
-        /// </summary>
         private bool _focus = false;
 
         /// <summary>
@@ -72,6 +67,35 @@ namespace UEditorGUI.Internal.TreeView
         /// <summary>
         /// 
         /// </summary>
+        public bool IsFoldout
+        {
+            set 
+            {
+                if (_children.Count == 0)
+                {
+                    _foldout = false;
+                }
+                else
+                {
+                    _foldout = value; 
+                }
+            }
+            get { return _foldout; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public int IndexOf(UTreeViewItemImp item)
+        {
+            return _children.IndexOf(item);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="list"></param>
         public void FillChildrenInto(List<UTreeViewItemImp> list)
         {
@@ -83,14 +107,6 @@ namespace UEditorGUI.Internal.TreeView
                     child.FillChildrenInto(list);
                 }
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public List<UTreeViewItemImp> Children
-        {
-            get { return _children; }
         }
 
         /// <summary>

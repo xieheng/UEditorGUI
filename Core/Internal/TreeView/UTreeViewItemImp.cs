@@ -56,12 +56,18 @@ namespace UEditorGUI.Internal.TreeView
 
         #region Public
 
+        public Rect Rect
+        {
+            get { return _rect; }
+        }
+
         /// <summary>
         /// 
         /// </summary>
         public bool IsSelected
         {
             set { _selected = value; }
+            get { return _selected; }
         }
 
         /// <summary>

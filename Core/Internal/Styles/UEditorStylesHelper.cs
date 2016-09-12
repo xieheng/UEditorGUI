@@ -81,7 +81,11 @@ namespace UEditorGUI.Internal.Styles
         /// </summary>
         private void Load()
         {
-            UEditorStyles assets = AssetDatabase.LoadAssetAtPath("Assets/Editor/UEditorGUI/Core/Internal/Styles/UEditorStyles.asset", typeof(UEditorStyles)) as UEditorStyles;
+#if UNITY_4_7
+            UEditorStyles assets = AssetDatabase.LoadAssetAtPath("Assets/Editor/UEditorGUI/Core/Internal/Styles/UEditorStyles_4.x.asset", typeof(UEditorStyles)) as UEditorStyles;
+#elif UNITY_5_2
+            UEditorStyles assets = AssetDatabase.LoadAssetAtPath("Assets/Editor/UEditorGUI/Core/Internal/Styles/UEditorStyles_5.x.asset", typeof(UEditorStyles)) as UEditorStyles;
+#endif
 
             if (assets == null)
             {

@@ -35,6 +35,20 @@ public class UTreeView : UControl
     /// </summary>
     private bool _multiSelection = true;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    private bool _selectedChanged = false;
+
+    #endregion
+
+    #region Event
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public event UEventHandler OnSelectionChanged;
+
     #endregion
 
     #region Override
@@ -70,6 +84,8 @@ public class UTreeView : UControl
     /// </summary>
     public override void OnGUI()
     {
+        _selectedChanged = false;
+
         _rect = EditorGUILayout.BeginVertical(/*EditorStyles.textArea*/);
         {
             _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos, GUILayout.ExpandHeight(true));
@@ -86,6 +102,11 @@ public class UTreeView : UControl
 
         ProcessKeyboardEvent();
         ProcessMouseEvent();
+
+        if (_selectedChanged)
+        {
+            OnSelectionChangedHandler();
+        }
     }
 
     #endregion
@@ -111,7 +132,7 @@ public class UTreeView : UControl
     public void Remove(UTreeViewItem item)
     {
         UTreeViewItemImp itemImp = item as UTreeViewItemImp;
-        _selected.Remove(itemImp);
+        RemoveFromSelectedList(itemImp);
 
         if (_children.Contains(itemImp))
         {
@@ -136,7 +157,7 @@ public class UTreeView : UControl
     public void RemoveAt(int index)
     {
         UTreeViewItemImp item = _children[index];
-        _selected.Remove(item);
+        RemoveFromSelectedList(item);
 
         _children.RemoveAt(index);
     }
@@ -168,6 +189,13 @@ public class UTreeView : UControl
         get { return _children[index]; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public UTreeViewItem[] SelectedItems
+    {
+        get { return _selected.ToArray(); }
+    }
     /// <summary>
     /// 
     /// </summary>
@@ -240,9 +268,9 @@ public class UTreeView : UControl
         if (next != null)
         {
             ClearSelectedList();
+            AddToSelectedList(next);
 
-            next.IsSelected = true;
-            _selected.Add(next);
+            _selectedChanged = true;
         }
     }
 
@@ -344,9 +372,9 @@ public class UTreeView : UControl
         if (prev != null)
         {
             ClearSelectedList();
+            AddToSelectedList(prev);
 
-            prev.IsSelected = true;
-            _selected.Add(prev);
+            _selectedChanged = true;
         }
     }
 
@@ -359,40 +387,35 @@ public class UTreeView : UControl
         if (_selected.Count == 0)
             return;
 
-        List<UTreeViewItemImp> tmp = new List<UTreeViewItemImp>();
-
-        foreach (UTreeViewItemImp item in _selected)
+        if (_selected.Count == 1)
         {
+            UTreeViewItemImp item = _selected[0];
+
             if (item.IsFoldout)
             {
-                bool childSelected = false;
-                for (int i = 0; i < item.Count; i++)
-                {
-                    UTreeViewItemImp itemImp = item[i] as UTreeViewItemImp;
-
-                    childSelected = itemImp.IsSelected;
-                    if (childSelected)
-                    {
-                        break;
-                    }
-                }
-
-                item.IsFoldout = childSelected;
-                tmp.Add(item);
+                item.IsFoldout = false; 
             }
             else
             {
                 UTreeViewItemImp parent = item.Parent as UTreeViewItemImp;
-                tmp.Add((parent != null) ? parent : item);
+                if (parent != null)
+                {
+                    ClearSelectedList();
+                    AddToSelectedList(parent);
+
+                    _selectedChanged = true;
+                }
             }
         }
-
-        ClearSelectedList();
-        _selected.AddRange(tmp);
-
-        foreach (UTreeViewItemImp item in _selected)
+        else
         {
-            item.IsSelected = true;
+            foreach (UTreeViewItemImp item in _selected)
+            {
+                if (item.IsFoldout)
+                {
+                    item.IsFoldout = HasSelectedChild(item);
+                }
+            }
         }
     }
 
@@ -405,58 +428,58 @@ public class UTreeView : UControl
         if (_selected.Count == 0)
             return;
 
-        List<UTreeViewItemImp> tmp = new List<UTreeViewItemImp>();
-
-        foreach (UTreeViewItemImp item in _selected)
+        if (_selected.Count == 1)
         {
-            if (item.Count == 0)
-                continue;
+            UTreeViewItemImp item = _selected[0];
 
             if (!item.IsFoldout)
             {
                 item.IsFoldout = true;
-                tmp.Add(item);
             }
-            else
+            else if (item.Count > 0)
             {
-                bool childSelected = false;
-                for (int i = 0; i < item.Count; i++)
-                {
-                    UTreeViewItemImp itemImp = item[i] as UTreeViewItemImp;
+                item.IsSelected = false;
+                ClearSelectedList();
 
-                    childSelected = itemImp.IsSelected;
-                    if (childSelected)
-                    {
-                        break;
-                    }
-                }
+                UTreeViewItemImp child = item[0] as UTreeViewItemImp;
+                AddToSelectedList(child);
 
-                if (!childSelected)
+                _selectedChanged = true;
+            }
+        }
+        else
+        {
+            foreach (UTreeViewItemImp item in _selected)
+            {
+                if (!item.IsFoldout)
                 {
-                    UTreeViewItemImp parent = item.Parent as UTreeViewItemImp;
-                    if (parent != null && parent.IsSelected)
-                    {
-                        tmp.Add(item);
-                        continue;
-                    }
-
-                    UTreeViewItemImp child = item[0] as UTreeViewItemImp;
-                    tmp.Add(child);
-                }
-                else
-                {
-                    tmp.Add(item);
+                    item.IsFoldout = true;
                 }
             }
         }
+    }
 
-        ClearSelectedList();
-        _selected.AddRange(tmp);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    private bool HasSelectedChild(UTreeViewItemImp item)
+    {
+        bool hasSelectedChilld = false;
 
-        foreach (UTreeViewItemImp item in _selected)
+        for (int i=0; i<item.Count; i++)
         {
-            item.IsSelected = true;
+            UTreeViewItemImp child = item[i] as UTreeViewItemImp;
+            hasSelectedChilld = child.IsSelected ? true : HasSelectedChild(child);
+
+            if (hasSelectedChilld)
+            {
+                break;
+            }
         }
+
+        return hasSelectedChilld;
     }
 
     /// <summary>
@@ -494,20 +517,20 @@ public class UTreeView : UControl
             }
         }
 
-        if (curSelected == null || !_multiSelection)
+        if (curSelected == null && _selected.Count > 0)
         {
             ClearSelectedList();
             Event.current.Use();
 
+            _selectedChanged = true;
             return;
         }
        
-        if (Event.current.shift)
+        if (_multiSelection && Event.current.shift)
         {
             if (_selected.Count == 0)
             {
-                curSelected.IsSelected = true;
-                _selected.Add(curSelected);
+                AddToSelectedList(curSelected);
             }
             else
             {
@@ -530,26 +553,35 @@ public class UTreeView : UControl
                 }
                 _selected.AddRange(selectedList);
             }
+
+            _selectedChanged = true;
         }
-        else if (Event.current.control)
+        else if (_multiSelection && Event.current.control)
         {
             if (_selected.Contains(curSelected))
             {
-                curSelected.IsSelected = false;
-                _selected.Remove(curSelected);
+                RemoveFromSelectedList(curSelected);
             }
             else
             {
-                curSelected.IsSelected = true;
-                _selected.Add(curSelected);
+                AddToSelectedList(curSelected);
             }
+
+            _selectedChanged = true;
         }
         else 
         {
-            ClearSelectedList();
+            if (_selected.Count == 1 && curSelected == _selected[0])
+            {
+                //_selectedChanged = false;
+            }
+            else
+            {
+                ClearSelectedList();
+                AddToSelectedList(curSelected);
 
-            curSelected.IsSelected = true;
-            _selected.Add(curSelected);
+                _selectedChanged = true;
+            }
         }
 
         Event.current.Use();
@@ -561,6 +593,26 @@ public class UTreeView : UControl
     private void ProcessRightMouseButton()
     {
 
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    private void AddToSelectedList(UTreeViewItemImp item)
+    {
+        item.IsSelected = true;
+        _selected.Add(item);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    private void RemoveFromSelectedList(UTreeViewItemImp item)
+    {
+        item.IsSelected = false;
+        _selected.Remove(item);
     }
 
     /// <summary>
@@ -592,6 +644,18 @@ public class UTreeView : UControl
         }
 
         return list;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void OnSelectionChangedHandler()
+    {
+        if (OnSelectionChanged != null)
+        {
+            UEventArgs args = new UEventArgs(this);
+            OnSelectionChanged(args);
+        }
     }
 
     #endregion

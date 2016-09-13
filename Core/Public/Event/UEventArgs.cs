@@ -132,6 +132,47 @@ public class UIntEventArgs : UEventArgs
 
 #endregion
 
+#region UFloatEventArgs
+
+/// <summary>
+/// 
+/// </summary>
+public class UFloatEventArgs : UEventArgs
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private float _value = 0;
+
+    #endregion
+
+    #region Construction
+
+    public UFloatEventArgs(object sender, float intValue)
+        : base(sender)
+    {
+        _value = intValue;
+    }
+
+    #endregion
+
+    #region Public 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public float Value
+    {
+        get { return _value; }
+    }
+
+    #endregion
+}
+
+#endregion
+
 #region UEnumEventArgs
 
 /// <summary>
@@ -355,6 +396,190 @@ public class UColorEventArgs : UEventArgs
     public Color Color
     {
         get { return _color; }
+    }
+
+    #endregion
+}
+
+#endregion
+
+#region UAnimationCurveEventArgs
+
+/// <summary>
+/// 
+/// </summary>
+public class UAnimationCurveEventArgs : UEventArgs
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private AnimationCurve _curve = null;
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="color"></param>
+    public UAnimationCurveEventArgs(object sender, AnimationCurve curve)
+        : base(sender)
+    {
+        _curve = curve;
+    }
+
+    #endregion
+
+    #region Public 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public AnimationCurve Curve
+    {
+        get { return _curve; }
+    }
+
+    #endregion
+}
+
+#endregion
+
+#region  UVector2EventArgs
+
+/// <summary>
+/// 
+/// </summary>
+public class UVector2EventArgs : UEventArgs
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private Vector2 _vector = Vector2.zero;
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="color"></param>
+    public UVector2EventArgs(object sender, Vector2 vector)
+        : base(sender)
+    {
+        _vector = vector;
+    }
+
+    #endregion
+
+    #region Public 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public Vector2 Vector
+    {
+        get { return _vector; }
+    }
+
+    #endregion 
+}
+
+#endregion
+
+#region  UVector3EventArgs
+
+/// <summary>
+/// 
+/// </summary>
+public class UVector3EventArgs : UEventArgs
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private Vector3 _vector = Vector3.zero;
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="color"></param>
+    public UVector3EventArgs(object sender, Vector3 vector)
+        : base(sender)
+    {
+        _vector = vector;
+    }
+
+    #endregion
+
+    #region Public
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public Vector3 Vector
+    {
+        get { return _vector; }
+    }
+
+    #endregion
+}
+
+#endregion
+
+#region  UVector4EventArgs
+
+/// <summary>
+/// 
+/// </summary>
+public class UVector4EventArgs : UEventArgs
+{
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private Vector4 _vector = Vector4.zero;
+
+    #endregion
+
+    #region Construction
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="color"></param>
+    public UVector4EventArgs(object sender, Vector4 vector)
+        : base(sender)
+    {
+        _vector = vector;
+    }
+
+    #endregion
+
+    #region Public
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public Vector4 Vector
+    {
+        get { return _vector; }
     }
 
     #endregion

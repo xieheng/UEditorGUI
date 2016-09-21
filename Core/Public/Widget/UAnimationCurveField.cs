@@ -4,7 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UAnimationCurveField : UWidget
+public class UAnimationCurveField : UCaptionWidget
 {
     #region Data
 
@@ -39,8 +39,8 @@ public class UAnimationCurveField : UWidget
     /// </summary>
     /// <param name="caption"></param>
     public UAnimationCurveField(string caption)
+        : base(caption)
     {
-        _caption = caption;
     }
 
     /// <summary>
@@ -58,8 +58,8 @@ public class UAnimationCurveField : UWidget
     /// <param name="caption"></param>
     /// <param name="curve"></param>
     public UAnimationCurveField(string caption, AnimationCurve curve)
+        : base(caption)
     {
-        _caption = caption;
         _curve = curve;
     }
 
@@ -70,22 +70,18 @@ public class UAnimationCurveField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            EditorGUI.BeginChangeCheck();
-            {
-                _curve = EditorGUILayout.CurveField(_caption, _curve);
-            }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            if (changed)
-            {
-                OnAnimationCurveChangedHandler();
-            }
+            _curve = EditorGUILayout.CurveField(caption, _curve);
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        if (changed)
+        {
+            OnAnimationCurveChangedHandler();
+        }
     }
 
     #endregion

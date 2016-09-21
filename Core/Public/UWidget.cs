@@ -3,75 +3,75 @@
 /// <summary>
 /// 
 /// </summary>
-public abstract class UWidget : UControl
-{
-    #region Data
+//public abstract class UWidget : UControl
+//{
+//    #region Data
     
-    /// <summary>
-    /// 
-    /// </summary>
-    protected string _caption = string.Empty;
+//    /// <summary>
+//    /// 
+//    /// </summary>
+//    protected string caption = string.Empty;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    protected Color _color = Color.white;
+//    /// <summary>
+//    /// 
+//    /// </summary>
+//    protected Color _color = Color.white;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    protected bool _autoSize = true;
+//    /// <summary>
+//    /// 
+//    /// </summary>
+//    protected bool _autoSize = true;
 
-    #endregion
+//    #endregion
 
-    #region Public
+//    #region Public
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public string caption
-    {
-        set { _caption = value; }
-        get { return _caption; }
-    }
+//    /// <summary>
+//    /// 
+//    /// </summary>
+//    public string caption
+//    {
+//        set { caption = value; }
+//        get { return caption; }
+//    }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public Color color
-    {
-        set { _color = value; }
-        get { return _color; }
-    }
+//    /// <summary>
+//    /// 
+//    /// </summary>
+//    public Color color
+//    {
+//        set { _color = value; }
+//        get { return _color; }
+//    }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public bool autoSize
-    {
-        set 
-        {
-            _autoSize = value;
-            if (_autoSize)
-            {
-                FixAutoSize();
-            }
-        }
+//    /// <summary>
+//    /// 
+//    /// </summary>
+//    public bool autoSize
+//    {
+//        set 
+//        {
+//            _autoSize = value;
+//            if (_autoSize)
+//            {
+//                FixAutoSize();
+//            }
+//        }
 
-        get { return _autoSize; }
-    }
+//        get { return _autoSize; }
+//    }
 
-    #endregion
+//    #endregion
 
-    #region Private 
+//    #region Private 
 
-    /// <summary>
-    /// 
-    /// </summary>
-    protected virtual void FixAutoSize()
-    {
+//    /// <summary>
+//    /// 
+//    /// </summary>
+//    protected virtual void FixAutoSize()
+//    {
 
-    }
+//    }
 
-    #endregion
-}
+//    #endregion
+//}

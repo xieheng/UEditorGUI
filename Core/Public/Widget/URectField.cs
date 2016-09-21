@@ -4,7 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class URectField : UWidget
+public class URectField : UCaptionWidget
 {
     #region Data
 
@@ -30,8 +30,8 @@ public class URectField : UWidget
     /// </summary>
     /// <param name="caption"></param>
     public URectField(string caption)
+        : base(caption)
     {
-        _caption = caption;
     }
 
     /// <summary>
@@ -49,8 +49,8 @@ public class URectField : UWidget
     /// <param name="caption"></param>
     /// <param name="rect"></param>
     public URectField(string caption, Rect rect)
+        : base(caption)
     {
-        _caption = caption;
         _value = rect;
     }
 
@@ -61,22 +61,18 @@ public class URectField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            EditorGUI.BeginChangeCheck();
-            {
-                _value = EditorGUILayout.RectField(_caption, _value);
-            }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            if (changed)
-            {
-                OnValueChangedHandler();
-            }
+            _value = EditorGUILayout.RectField(caption, _value);
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        if (changed)
+        {
+            OnValueChangedHandler();
+        }
     }
 
     #endregion

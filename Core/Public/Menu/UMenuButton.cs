@@ -50,7 +50,7 @@ public class UMenuButton : UMenuSub
     /// </summary>
     public override void OnGUI()
     {
-        if (!_visible || _parent == null)
+        if (!visible || _parent == null)
             return;
 
         if (_enabled)

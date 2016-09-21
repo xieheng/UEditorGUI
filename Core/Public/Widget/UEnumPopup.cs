@@ -5,7 +5,7 @@ using System;
 /// <summary>
 /// 
 /// </summary>
-public class UEnumPopup : UWidget
+public class UEnumPopup : UCaptionWidget
 {
     #region Data
 
@@ -40,8 +40,8 @@ public class UEnumPopup : UWidget
     /// </summary>
     /// <param name="caption"></param>
     public UEnumPopup(string caption)
+        : base(caption)
     {
-        _caption = caption;
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class UEnumPopup : UWidget
     /// <param name="style"></param>
     protected UEnumPopup(GUIStyle style)
     {
-        _style = style;
+        this.style = style;
     }
 
     /// <summary>
@@ -59,9 +59,9 @@ public class UEnumPopup : UWidget
     /// <param name="caption"></param>
     /// <param name="style"></param>
     protected UEnumPopup(string caption, GUIStyle style)
+        : base(caption)
     {
-        _caption = caption;
-        _style = style;
+        this.style = style;
     }
 
     #endregion
@@ -71,25 +71,18 @@ public class UEnumPopup : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        if (!_visible)
-            return;
-
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            EditorGUI.BeginChangeCheck();
-            {
-                _enum = EditorGUILayout.EnumPopup(_caption, _enum, _style);
-            }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            if (changed)
-            {
-                OnValueChangedHandler();
-            }
+            _enum = EditorGUILayout.EnumPopup(caption, _enum, style);
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        if (changed)
+        {
+            OnValueChangedHandler();
+        }
     }
 
     #endregion

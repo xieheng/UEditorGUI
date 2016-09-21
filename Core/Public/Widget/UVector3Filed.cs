@@ -4,7 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UVector3Filed : UWidget
+public class UVector3Filed : UCaptionWidget
 {
     #region Data
 
@@ -39,8 +39,8 @@ public class UVector3Filed : UWidget
     /// </summary>
     /// <param name="caption"></param>
     public UVector3Filed(string caption)
+        : base(caption)
     {
-        _caption = caption;
     }
 
     /// <summary>
@@ -58,8 +58,8 @@ public class UVector3Filed : UWidget
     /// <param name="caption"></param>
     /// <param name="vector"></param>
     public UVector3Filed(string caption, Vector3 vector)
+        : base(caption)
     {
-        _caption = caption;
         _vector = vector;
     }
 
@@ -72,20 +72,16 @@ public class UVector3Filed : UWidget
     /// </summary>
     public override void OnGUI()
     {
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            EditorGUI.BeginChangeCheck();
-            {
-                _vector = EditorGUILayout.Vector3Field(_caption, _vector);
-            }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            if (changed)
-            {
-                OnValueChangedHandler();
-            }
+            _vector = EditorGUILayout.Vector3Field(caption, _vector);
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        if (changed)
+        {
+            OnValueChangedHandler();
+        }
     }
 
     #endregion

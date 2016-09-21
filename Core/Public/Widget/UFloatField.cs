@@ -4,7 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UFloatField : UWidget
+public class UFloatField : UCaptionWidget
 {
     #region Data
 
@@ -39,8 +39,8 @@ public class UFloatField : UWidget
     /// </summary>
     /// <param name="caption"></param>
     public UFloatField(string caption)
+        : base(caption)
     {
-        _caption = caption;
     }
 
     /// <summary>
@@ -58,8 +58,8 @@ public class UFloatField : UWidget
     /// <param name="caption"></param>
     /// <param name="value"></param>
     public UFloatField(string caption, float value)
+        : base(caption)
     {
-        _caption = caption;
         _value = value;
     }
 
@@ -70,22 +70,18 @@ public class UFloatField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            EditorGUI.BeginChangeCheck();
-            {
-                _value = EditorGUILayout.FloatField(_caption, _value);
-            }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            if (changed)
-            {
-                OnValueChangedHandler();
-            }
+            _value = EditorGUILayout.FloatField(caption, _value);
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        if (changed)
+        {
+            OnValueChangedHandler();
+        }
     }
 
     #endregion

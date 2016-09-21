@@ -16,7 +16,6 @@ namespace UEditorGUI.Internal.Toolbar
         public UToolbarTextField()
             : base(EditorStyles.toolbarTextField)
         {
-            _autoSize = false;
         }
 
         /// <summary>
@@ -27,7 +26,6 @@ namespace UEditorGUI.Internal.Toolbar
         public UToolbarTextField(string caption)
             : base(caption, EditorStyles.toolbarTextField)
         {
-            _autoSize = false;
         }
 
         #endregion

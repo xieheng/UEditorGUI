@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-public class UButton: UWidget
+/// <summary>
+/// 
+/// </summary>
+public class UButton : UCaptionWidget
 {
     #region Event
 
@@ -19,7 +22,7 @@ public class UButton: UWidget
     /// </summary>
     public UButton()
     {
-        _caption = "Button";
+        caption = "Button";
     }
 
     /// <summary>
@@ -27,8 +30,8 @@ public class UButton: UWidget
     /// </summary>
     /// <param name="caption"></param>
     public UButton(string caption)
+        : base(caption)
     {
-        _caption = caption;
     }
 
     /// <summary>
@@ -37,9 +40,9 @@ public class UButton: UWidget
     /// <param name="caption"></param>
     /// <param name="style"></param>
     protected UButton(string caption, GUIStyle style)
+        : base(caption)
     {
-        _caption = caption;
-        _style = style;
+        this.style = style;
     }
 
     #endregion
@@ -49,30 +52,23 @@ public class UButton: UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        if (!_visible)
-            return;
+        bool clicked = false;
 
-        GUI.color = _color;
+        if (style == GUIStyle.none)
         {
-            bool clicked = false;
-
-            if (_style == GUIStyle.none)
-            {
-                clicked = GUILayout.Button(_caption);
-            }
-            else
-            {
-                clicked = GUILayout.Button(_caption, _style);
-            }
-
-            if (clicked)
-            {
-                OnClickedHandler();
-            }
+            clicked = GUILayout.Button(caption);
         }
-        GUI.color = Color.white;
+        else
+        {
+            clicked = GUILayout.Button(caption, style);
+        }
+
+        if (clicked)
+        {
+            OnClickedHandler();
+        }
     }
 
     #endregion

@@ -4,7 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UObjectField : UWidget
+public class UObjectField : UCaptionWidget
 {
     #region Data
 
@@ -46,8 +46,8 @@ public class UObjectField : UWidget
     /// <param name="caption"></param>
     /// <param name="type"></param>
     public UObjectField(string caption, System.Type type)
+        : base(caption)
     {
-        _caption = caption;
         _type = type;
     }
 
@@ -58,22 +58,18 @@ public class UObjectField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            EditorGUI.BeginChangeCheck();
-            {
-                _object = EditorGUILayout.ObjectField(_caption, _object, _type);
-            }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            if (changed)
-            {
-                OnObjectChangedHandler();
-            }
+            _object = EditorGUILayout.ObjectField(caption, _object, _type);
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        if (changed)
+        {
+            OnObjectChangedHandler();
+        }
     }
 
     #endregion

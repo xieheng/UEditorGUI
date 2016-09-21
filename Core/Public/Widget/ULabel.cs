@@ -4,8 +4,17 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class ULabel: UWidget
+public class ULabel: UColorfulWidget
 {
+    #region Data
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private string _text = string.Empty;
+
+    #endregion
+
     #region Construction
 
     /// <summary>
@@ -14,18 +23,7 @@ public class ULabel: UWidget
     /// <param name="text"></param>
     public ULabel(string text)
     {
-        _caption = text;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="text"></param>
-    /// <param name="style"></param>
-    protected ULabel(string text, GUIStyle style)
-    {
-        _caption = text;
-        _style = style;
+        _text = text;
     }
 
     #endregion
@@ -35,23 +33,9 @@ public class ULabel: UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        if (!_visible)
-            return;
-
-        GUI.color = _color;
-        {
-            if (_style == GUIStyle.none)
-            {
-                GUILayout.Label(_caption);
-            }
-            else
-            {
-                GUILayout.Label(_caption, _style);
-            }
-        }
-        GUI.color = Color.white;
+        GUILayout.Label(_text);
     }
 
     #endregion

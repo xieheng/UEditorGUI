@@ -4,7 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UTextField : UWidget
+public class UTextField : UCaptionWidget
 {
     #region Data
 
@@ -38,8 +38,8 @@ public class UTextField : UWidget
     /// </summary>
     /// <param name="caption"></param>
     public UTextField(string caption)
+        : base(caption)
     {
-        _caption = caption;
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class UTextField : UWidget
     /// <param name="style"></param>
     protected UTextField(GUIStyle style)
     {
-        _style = style;
+        this.style = style;
     }
 
     /// <summary>
@@ -57,9 +57,9 @@ public class UTextField : UWidget
     /// <param name="caption"></param>
     /// <param name="style"></param>
     protected UTextField(string caption, GUIStyle style)
+        : base(caption)
     {
-        _caption = caption;
-        _style = style;
+        this.style = style;
     }
 
     #endregion
@@ -69,32 +69,25 @@ public class UTextField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        if (!_visible)
-            return;
-
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            EditorGUI.BeginChangeCheck();
+            if (style == GUIStyle.none)
             {
-                if (_style == GUIStyle.none)
-                {
-                    _text = EditorGUILayout.TextField(_caption, _text);
-                }
-                else
-                {
-                    _text = EditorGUILayout.TextField(_caption, _text, _style);
-                }
+                _text = EditorGUILayout.TextField(caption, _text);
             }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            if (changed)
+            else
             {
-                OnTextChangedHandler();
+                _text = EditorGUILayout.TextField(caption, _text, style);
             }
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        if (changed)
+        {
+            OnTextChangedHandler();
+        }
     }
 
     #endregion

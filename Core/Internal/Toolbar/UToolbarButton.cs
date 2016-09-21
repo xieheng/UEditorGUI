@@ -17,7 +17,6 @@ namespace UEditorGUI.Internal.Toolbar
         public UToolbarButton(string caption)
             : base(caption, EditorStyles.toolbarButton)
         {
-            _autoSize = false;
         }
 
         #endregion

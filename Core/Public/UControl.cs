@@ -3,38 +3,26 @@
 /// <summary>
 /// 
 /// </summary>
-public abstract class UControl : UObject
+public abstract class UControl : UPanel
 {
     #region Data
 
     /// <summary>
     /// 
     /// </summary>
-    protected GUIStyle _style = GUIStyle.none;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    protected bool _focus = false;
+    private GUIStyle _style = GUIStyle.none;
 
     #endregion
 
-    #region Public
+    #region Privte
 
     /// <summary>
     /// 
     /// </summary>
-    public virtual void OnFocus()
+    protected GUIStyle style
     {
-        _focus = true;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public virtual void LostFocus()
-    {
-        _focus = false;
+        set { _style = value; }
+        get { return _style; }
     }
 
     #endregion

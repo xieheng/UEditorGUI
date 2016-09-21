@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using UEditorGUI.Internal.Menu;
 
-public class UMenu : UWidget
+public class UMenu : UCaptionWidget
 {
 #region Data
 
@@ -21,10 +21,9 @@ public class UMenu : UWidget
     /// </summary>
     /// <param name="caption"></param>
     public UMenu(string caption)
+        : base(caption)
     {
-        _autoSize = false;
-        _caption = caption;
-        _style = GUI.skin.FindStyle("DropDownButton");
+        this.style = GUI.skin.FindStyle("DropDownButton");
     }
 
     /// <summary>
@@ -33,10 +32,9 @@ public class UMenu : UWidget
     /// <param name="caption"></param>
     /// <param name="style"></param>
     protected UMenu(string caption, GUIStyle style)
+        : base(caption)
     {
-        _autoSize = false;
-        _caption = caption;
-        _style = style;
+        this.style = style;
     }
 
     #endregion
@@ -46,21 +44,11 @@ public class UMenu : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        if (!_visible)
-            return;
+        Rect rect = GUILayoutUtility.GetRect(new GUIContent(caption), style, GUILayout.ExpandWidth(false));
 
-        bool clicked = false;
-        Rect rect = GUILayoutUtility.GetRect(new GUIContent(_caption), _style, GUILayout.ExpandWidth(false));
-
-        GUI.color = _color;
-        {
-            clicked = GUI.Button(rect, _caption, _style);
-        }
-        GUI.color = Color.white;
-
-        if (clicked)
+        if (GUI.Button(rect, caption, style))
         {
             GenericMenu menu = new GenericMenu();
 

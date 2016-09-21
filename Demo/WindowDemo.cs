@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using UEditorGUI;
 
 /// <summary>
 /// A demo of UWindow
@@ -41,21 +42,22 @@ public class WindowDemo : UWindow
     {
         //toolbar
         {
+            UToolbar toolbar = new UToolbar();
             // button
             {
-                UButton button = Toolbar.AddButton("Button");
+                UButton button = toolbar.AddButton("Button");
                 button.OnClicked += OnButtonClickedHandler;
             }
 
             //toggle button
             {
-                UToggleButton toggleButton = Toolbar.AddToggleButton("Toggle");
+                UToggleButton toggleButton = toolbar.AddToggleButton("Toggle");
                 toggleButton.OnToggleChanged += new UToggleChangedEventHandler(OnToggleChangedHandler);
             }
 
             //menu
             {
-                UMenu menu = Toolbar.AddMenu("Menu");
+                UMenu menu = toolbar.AddMenu("Menu");
 
                 UMenuButton a = menu.AddButton("A");
                 a.OnClicked += OnMenuButtonAClickedHandler;
@@ -72,15 +74,17 @@ public class WindowDemo : UWindow
 
             //enum popup
             {
-                UEnumPopup enumPopup = Toolbar.AddEnumPopup(WeekDay.Monday);
+                UEnumPopup enumPopup = toolbar.AddEnumPopup(WeekDay.Monday);
                 enumPopup.OnValueChanged += OnEnumValueChangedHandler;
             }
 
             //search field
             {
-                USearchField searchFiled = Toolbar.AddSearchFiled(UToolbar.Alignment.Right);
+                USearchField searchFiled = toolbar.AddSearchFiled(UToolbar.Alignment.Right);
                 searchFiled.OnTextChanged += OnSerachTextChangedHander;
             }
+
+            AddWidget(toolbar);
         }
 
         //treeview

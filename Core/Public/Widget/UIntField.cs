@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-public class UIntField : UWidget
+public class UIntField : UCaptionWidget
 {
     #region Data
 
@@ -36,8 +36,8 @@ public class UIntField : UWidget
     /// </summary>
     /// <param name="caption"></param>
     public UIntField(string caption)
+        : base(caption)
     {
-        _caption = caption;
     }
 
     /// <summary>
@@ -55,8 +55,8 @@ public class UIntField : UWidget
     /// <param name="caption"></param>
     /// <param name="initValue"></param>
     public UIntField(string caption, int initValue)
+        : base(caption)
     {
-        _caption = caption;
         _value = initValue;
     }
 
@@ -67,22 +67,18 @@ public class UIntField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            EditorGUI.BeginChangeCheck();
-            {
-                _value = EditorGUILayout.IntField(_caption, _value);
-            }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            if (changed)
-            {
-                OnValueChangedHandler();
-            }
+            _value = EditorGUILayout.IntField(caption, _value);
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        if (changed)
+        {
+            OnValueChangedHandler();
+        }
     }
 
     #endregion

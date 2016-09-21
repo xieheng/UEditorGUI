@@ -14,7 +14,7 @@ public class UMenuSeparator : UMenuSub
     /// </summary>
     public override void OnGUI()
     {
-        if (!_visible)
+        if (!visible)
             return;
 
         if (_parent != null)

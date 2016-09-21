@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-public class UIntPopup : UWidget
+public class UIntPopup : UCaptionWidget
 {
     #region Data
 
@@ -54,43 +54,11 @@ public class UIntPopup : UWidget
     /// <param name="values"></param>
     /// <param name="texts"></param>
     public UIntPopup(string caption, int initValue, int[] values, string[] texts)
-    {
-        _caption = caption;
-        _value = initValue;
-        _values = values;
-        _texts = texts;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="initValue"></param>
-    /// <param name="values"></param>
-    /// <param name="texts"></param>
-    /// <param name="style"></param>
-    protected UIntPopup(int initValue, int[] values, string[] texts, GUIStyle style)
+        : base(caption)
     {
         _value = initValue;
         _values = values;
         _texts = texts;
-        _style = style;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="caption"></param>
-    /// <param name="initValue"></param>
-    /// <param name="values"></param>
-    /// <param name="texts"></param>
-    /// <param name="style"></param>
-    protected UIntPopup(string caption, int initValue, int[] values, string[] texts, GUIStyle style)
-    {
-        _caption = caption;
-        _value = initValue;
-        _values = values;
-        _texts = texts;
-        _style = style;
     }
 
     #endregion
@@ -100,25 +68,18 @@ public class UIntPopup : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        if (!_visible)
-            return;
-
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            EditorGUI.BeginChangeCheck();
-            {
-                _value = EditorGUILayout.IntPopup(_caption, _value, _texts, _values);
-            }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            if (changed)
-            {
-                OnValueChangedHandler();
-            }
+            _value = EditorGUILayout.IntPopup(caption, _value, _texts, _values);
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        if (changed)
+        {
+            OnValueChangedHandler();
+        }
     }
 
     #endregion

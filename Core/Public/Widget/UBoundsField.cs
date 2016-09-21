@@ -4,7 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UBoundsField : UWidget
+public class UBoundsField : UCaptionWidget
 {
     #region Data
 
@@ -39,8 +39,8 @@ public class UBoundsField : UWidget
     /// </summary>
     /// <param name="caption"></param>
     public UBoundsField(string caption)
+        : base(caption)
     {
-        _caption = caption;
     }
 
     /// <summary>
@@ -58,8 +58,8 @@ public class UBoundsField : UWidget
     /// <param name="caption"></param>
     /// <param name="bounds"></param>
     public UBoundsField(string caption, Bounds bounds)
+        : base(caption)
     {
-        _caption = caption;
         _bounds = bounds;
     }
 
@@ -70,22 +70,18 @@ public class UBoundsField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            EditorGUI.BeginChangeCheck();
-            {
-                _bounds = EditorGUILayout.BoundsField(_caption, _bounds);
-            }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            if (changed)
-            {
-                OnBoundsChangedHandler();
-            }
+            _bounds = EditorGUILayout.BoundsField(caption, _bounds);
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        if (changed)
+        {
+            OnBoundsChangedHandler();
+        }
     }
 
     #endregion

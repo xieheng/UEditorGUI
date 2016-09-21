@@ -42,11 +42,7 @@ public class UHelpBox : UWidget
     /// </summary>
     public override void OnGUI()
     {
-        GUI.color = _color;
-        {
-            EditorGUILayout.HelpBox(_text, _type);
-        }
-        GUI.color = Color.white;
+        EditorGUILayout.HelpBox(_text, _type);
     }
 
     #endregion

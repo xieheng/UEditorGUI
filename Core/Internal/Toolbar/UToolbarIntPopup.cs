@@ -17,9 +17,9 @@ namespace UEditorGUI.Internal.Toolbar
         /// <param name="values"></param>
         /// <param name="texts"></param>
         public UToolbarIntPopup(int initValue, int[] values, string[] texts)
-            : base(initValue, values, texts, EditorStyles.toolbarPopup)
+            : base(initValue, values, texts)
         {
-
+            style = EditorStyles.toolbarPopup;
         }
 
         /// <summary>
@@ -30,9 +30,9 @@ namespace UEditorGUI.Internal.Toolbar
         /// <param name="values"></param>
         /// <param name="texts"></param>
         public UToolbarIntPopup(string caption, int initValue, int[] values, string[] texts)
-            : base(caption, initValue, values, texts, EditorStyles.toolbarPopup)
+            : base(caption, initValue, values, texts)
         {
-
+            style = EditorStyles.toolbarPopup;
         }
 
         #endregion

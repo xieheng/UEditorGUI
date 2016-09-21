@@ -2,14 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ULayout : UObject
+public class ULayout : UPanel
 {
     #region Data
 
     /// <summary>
     /// 
     /// </summary>
-    protected List<UObject> _children = new List<UObject>();
+    protected List<UPanel> _children = new List<UPanel>();
 
     #endregion
 
@@ -32,14 +32,14 @@ public class ULayout : UObject
     /// </summary>
     public override void OnGUI()
     {
-        if (!_visible)
+        if (!visible)
             return;
 
         BeginGUI();
         {
             for (int i = 0; i < _children.Count; i++)
             {
-                UObject child = _children[i];
+                UPanel child = _children[i];
                 child.OnGUI();
             }
         }
@@ -77,23 +77,27 @@ public class ULayout : UObject
     /// <summary>
     /// 
     /// </summary>
-    public void OnFocus()
+    public override void OnFocus()
     {
         foreach (UControl c in _children)
         {
             c.OnFocus();
         }
+
+        base.OnFocus();
     }
 
     /// <summary>
     /// 
     /// </summary>
-    public void LostFocus()
+    public override void LostFocus()
     {
         foreach (UControl c in _children)
         {
             c.LostFocus();
         }
+
+        base.LostFocus();
     }
 
     #endregion

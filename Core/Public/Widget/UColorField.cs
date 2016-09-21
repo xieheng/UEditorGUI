@@ -4,7 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UColorField : UWidget
+public class UColorField : UCaptionWidget
 {
     #region Data
 
@@ -39,8 +39,8 @@ public class UColorField : UWidget
     /// </summary>
     /// <param name="caption"></param>
     public UColorField(string caption)
+        : base(caption)
     {
-        _caption = caption;
     }
 
     /// <summary>
@@ -58,8 +58,8 @@ public class UColorField : UWidget
     /// <param name="caption"></param>
     /// <param name="bounds"></param>
     public UColorField(string caption, Color color)
+        : base(caption)
     {
-        _caption = caption;
         _value = color;
     }
 
@@ -70,22 +70,18 @@ public class UColorField : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            EditorGUI.BeginChangeCheck();
-            {
-                _value = EditorGUILayout.ColorField(_caption, _value);
-            }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            if (changed)
-            {
-                OnColorChangedHandler();
-            }
+            _value = EditorGUILayout.ColorField(caption, _value);
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        if (changed)
+        {
+            OnColorChangedHandler();
+        }
     }
 
     #endregion

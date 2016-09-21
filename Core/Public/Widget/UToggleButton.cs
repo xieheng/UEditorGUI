@@ -4,7 +4,7 @@ using UnityEditor;
 /// <summary>
 /// 
 /// </summary>
-public class UToggleButton : UWidget
+public class UToggleButton : UCaptionWidget
 {
     #region Data
 
@@ -31,7 +31,7 @@ public class UToggleButton : UWidget
     /// </summary>
     public UToggleButton()
     {
-        _caption = "Toggle Button";
+        caption = "Toggle Button";
     }
 
     /// <summary>
@@ -39,18 +39,19 @@ public class UToggleButton : UWidget
     /// </summary>
     /// <param name="caption"></param>
     public UToggleButton(string caption)
+        : base(caption)
     {
-        _caption = caption;
     }
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="caption"></param>
     /// <param name="style"></param>
     protected UToggleButton(string caption, GUIStyle style)
+        : base(caption)
     {
-        _caption = caption;
-        _style = style;
+        this.style = style;
     }
 
     #endregion
@@ -60,32 +61,25 @@ public class UToggleButton : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public override void OnGUI()
+    protected override void UpdateGUI()
     {
-        if (!_visible)
-            return;
+        Rect rect = GUILayoutUtility.GetRect(new GUIContent(caption), style, GUILayout.ExpandWidth(false));
 
-        GUI.color = _color;
+        EditorGUI.BeginChangeCheck();
         {
-            Rect rect = GUILayoutUtility.GetRect(new GUIContent(_caption), _style, GUILayout.ExpandWidth(false));
-
-            EditorGUI.BeginChangeCheck();
-            {
-                _toggled = GUI.Toggle(rect, _toggled, string.Empty, _style);
-            }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            GUIStyle labelStyle = EditorStyles.miniLabel;
-            labelStyle.alignment = TextAnchor.MiddleCenter;
-
-            GUI.Label(rect, _caption, labelStyle);
-
-            if (changed)
-            {
-                OnToggleChangedHandler();
-            }
+            _toggled = GUI.Toggle(rect, _toggled, string.Empty, style);
         }
-        GUI.color = Color.white;
+        bool changed = EditorGUI.EndChangeCheck();
+
+        GUIStyle labelStyle = EditorStyles.miniLabel;
+        labelStyle.alignment = TextAnchor.MiddleCenter;
+
+        GUI.Label(rect, caption, labelStyle);
+
+        if (changed)
+        {
+            OnToggleChangedHandler();
+        }
     }
 
     #endregion
@@ -95,7 +89,7 @@ public class UToggleButton : UWidget
     /// <summary>
     /// 
     /// </summary>
-    public bool IsToogled
+    public bool toggled
     {
         set 
         {

@@ -18,7 +18,6 @@ namespace UEditorGUI.Internal.Toolbar
         public UToolbarMenu(string caption)
             : base(caption, EditorStyles.toolbarDropDown)
         {
-            _autoSize = false;
         }
 
         #endregion

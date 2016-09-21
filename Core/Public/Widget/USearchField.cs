@@ -14,7 +14,6 @@ public class USearchField : UTextField
     /// <param name="alignment"></param>
     public USearchField()
     {
-        _autoSize = false;
     }
 
     /// <summary>
@@ -22,9 +21,8 @@ public class USearchField : UTextField
     /// </summary>
     /// <param name="alignment"></param>
     public USearchField(string caption)
+        : base(caption)
     {
-        _autoSize = false;
-        _caption = caption;
     }
 
     #endregion
@@ -36,7 +34,7 @@ public class USearchField : UTextField
     /// </summary>
     public override void OnGUI()
     {
-        if (!_visible)
+        if (!visible)
             return;
 
         EditorGUILayout.BeginHorizontal();

@@ -49,7 +49,7 @@ public class UToolbar : UControl
     /// </summary>
     public override void OnGUI()
     {
-        if (!_visible)
+        if (!visible)
             return;
 
         if (_leftItems.Count == 0 && _rightItems.Count == 0)

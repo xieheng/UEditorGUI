@@ -47,21 +47,21 @@ public class UEnumPopup : UCaptionWidget
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="style"></param>
-    protected UEnumPopup(GUIStyle style)
+    /// <param name="enumValue"></param>
+    public UEnumPopup(System.Enum enumValue)
     {
-        this.style = style;
+        _enum = enumValue;
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="caption"></param>
-    /// <param name="style"></param>
-    protected UEnumPopup(string caption, GUIStyle style)
+    /// <param name="enumValue"></param>
+    public UEnumPopup(string caption, System.Enum enumValue)
         : base(caption)
     {
-        this.style = style;
+        _enum = enumValue;
     }
 
     #endregion
@@ -83,6 +83,14 @@ public class UEnumPopup : UCaptionWidget
         {
             OnValueChangedHandler();
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected override void ActiveToolbarGuiStyle()
+    {
+        this.style = EditorStyles.toolbarPopup;
     }
 
     #endregion

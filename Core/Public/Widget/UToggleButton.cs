@@ -82,6 +82,14 @@ public class UToggleButton : UCaptionWidget
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    protected override void ActiveToolbarGuiStyle()
+    {
+        this.style = EditorStyles.toolbarButton;
+    }
+
     #endregion
 
     #region Public

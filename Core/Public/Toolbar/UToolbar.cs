@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using UEditorGUI.Internal.Toolbar;
 
 /// <summary>
 /// 
@@ -80,121 +79,32 @@ public class UToolbar : UControl
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="caption"></param>
+    /// <param name="widget"></param>
     /// <param name="alignment"></param>
-    /// <returns></returns>
-    public UButton AddButton(string caption, Alignment alignment = Alignment.Left)
-    {
-        UToolbarButton button = new UToolbarButton(caption);
-        AddItem(button, alignment);
-
-        return button;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="caption"></param>
-    /// <param name="toggle"></param>
-    /// <param name="alignment"></param>
-    /// <returns></returns>
-    public UToggleButton AddToggleButton(string caption, bool toggle = false, Alignment alignment = Alignment.Left)
-    {
-        UToolbarToggleButton toggleButton = new UToolbarToggleButton(caption, toggle);
-        AddItem(toggleButton, alignment);
-
-        return toggleButton;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="caption"></param>
-    /// <param name="alignment"></param>
-    /// <returns></returns>
-    public UMenu AddMenu(string caption, Alignment alignment = Alignment.Left)
-    {
-        UToolbarMenu menu = new UToolbarMenu(caption);
-        AddItem(menu, alignment);
-
-        return menu;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="enumValue"></param>
-    /// <param name="alignment"></param>
-    /// <returns></returns>
-    public UEnumPopup AddEnumPopup(System.Enum enumValue, Alignment alignment = Alignment.Left)
-    {
-        UToolbarEnumPopup enumPopup = new UToolbarEnumPopup(enumValue);
-        AddItem(enumPopup, alignment);
-
-        return enumPopup;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="caption"></param>
-    /// <param name="enumValue"></param>
-    /// <param name="alignment"></param>
-    /// <returns></returns>
-    public UEnumPopup AddEnumPopup(string caption, System.Enum enumValue, Alignment alignment = Alignment.Left)
-    {
-        UToolbarEnumPopup enumPopup = new UToolbarEnumPopup(caption, enumValue);
-        AddItem(enumPopup, alignment);
-
-        return enumPopup;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="alignment"></param>
-    /// <returns></returns>
-    public USearchField AddSearchFiled(Alignment alignment = Alignment.Right)
-    {
-        UToolbarSearchField filed = new UToolbarSearchField();
-        AddItem(filed, alignment);
-
-        return filed;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="caption"></param>
-    /// <param name="alignment"></param>
-    /// <returns></returns>
-    public USearchField AddSearchFiled(string caption, Alignment alignment = Alignment.Right)
-    {
-        UToolbarSearchField filed = new UToolbarSearchField(caption);
-        AddItem(filed, alignment);
-
-        return filed;
-    }
-
-    #endregion
-
-    #region Private
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="item"></param>
-    /// <param name="alignment"></param>
-    private void AddItem(UWidget item, Alignment alignment = Alignment.Left)
+    public void AddWidget(UWidget widget, Alignment alignment = Alignment.Left)
     {
         if (alignment == Alignment.Left)
         {
-            _leftItems.Add(item);
+            _leftItems.Add(widget);
         }
         else
         {
-            _rightItems.Add(item);
+            _rightItems.Add(widget);
         }
+
+        UControl.ActiveToolbarGuiStyle(widget);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="widget"></param>
+    public void RemoveWidget(UWidget widget)
+    {
+        _leftItems.Remove(widget);
+        _rightItems.Remove(widget);
+
+        UControl.UnActiveToolbarGuiStyle(widget);
     }
 
     #endregion

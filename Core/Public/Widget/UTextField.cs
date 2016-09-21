@@ -90,6 +90,14 @@ public class UTextField : UCaptionWidget
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    protected override void ActiveToolbarGuiStyle()
+    {
+        this.style = EditorStyles.toolbarTextField;
+    }
+
     #endregion
 
     #region Private

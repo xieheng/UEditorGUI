@@ -71,6 +71,14 @@ public class UButton : UCaptionWidget
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    protected override void ActiveToolbarGuiStyle()
+    {
+        this.style = EditorStyles.toolbarButton;
+    }
+
     #endregion
 
     #region Private

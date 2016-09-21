@@ -25,5 +25,31 @@ public abstract class UControl : UPanel
         get { return _style; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="control"></param>
+    protected static void ActiveToolbarGuiStyle(UControl control)
+    {
+        control.ActiveToolbarGuiStyle();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="control"></param>
+    protected static void UnActiveToolbarGuiStyle(UControl control)
+    {
+        control.style = GUIStyle.none;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected virtual void ActiveToolbarGuiStyle()
+    {
+
+    }
+
     #endregion
 }

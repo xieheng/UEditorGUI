@@ -82,6 +82,14 @@ public class UIntPopup : UCaptionWidget
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    protected override void ActiveToolbarGuiStyle()
+    {
+        this.style = EditorStyles.toolbarPopup;
+    }
+
     #endregion
 
     #region Private

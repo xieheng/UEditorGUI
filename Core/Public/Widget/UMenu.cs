@@ -23,7 +23,7 @@ public class UMenu : UCaptionWidget
     public UMenu(string caption)
         : base(caption)
     {
-        this.style = GUI.skin.FindStyle("DropDownButton");
+        
     }
 
     /// <summary>
@@ -46,6 +46,7 @@ public class UMenu : UCaptionWidget
     /// </summary>
     protected override void UpdateGUI()
     {
+        this.style = (style == GUIStyle.none) ? GUI.skin.FindStyle("DropDownButton") : style;
         Rect rect = GUILayoutUtility.GetRect(new GUIContent(caption), style, GUILayout.ExpandWidth(false));
 
         if (GUI.Button(rect, caption, style))
@@ -62,6 +63,14 @@ public class UMenu : UCaptionWidget
 
             menu.DropDown(rect);
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected override void ActiveToolbarGuiStyle()
+    {
+        this.style = EditorStyles.toolbarDropDown;
     }
 
     #endregion

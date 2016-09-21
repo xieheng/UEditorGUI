@@ -45,19 +45,23 @@ public class WindowDemo : UWindow
             UToolbar toolbar = new UToolbar();
             // button
             {
-                UButton button = toolbar.AddButton("Button");
+                UButton button = new UButton("Button");
                 button.OnClicked += OnButtonClickedHandler;
+
+                toolbar.AddWidget(button);
             }
 
             //toggle button
             {
-                UToggleButton toggleButton = toolbar.AddToggleButton("Toggle");
+                UToggleButton toggleButton = new UToggleButton("Toggle");
                 toggleButton.OnToggleChanged += new UToggleChangedEventHandler(OnToggleChangedHandler);
+
+                toolbar.AddWidget(toggleButton);
             }
 
             //menu
             {
-                UMenu menu = toolbar.AddMenu("Menu");
+                UMenu menu = new UMenu("Menu");//toolbar.AddMenu("Menu");
 
                 UMenuButton a = menu.AddButton("A");
                 a.OnClicked += OnMenuButtonAClickedHandler;
@@ -70,18 +74,24 @@ public class WindowDemo : UWindow
 
                 UMenuButton c = menu.AddButton("C");
                 c.OnClicked += OnMenuButtonCClickedHandler;
+
+                toolbar.AddWidget(menu);
             }
 
             //enum popup
             {
-                UEnumPopup enumPopup = toolbar.AddEnumPopup(WeekDay.Monday);
+                UEnumPopup enumPopup = new UEnumPopup(WeekDay.Monday);
                 enumPopup.OnValueChanged += OnEnumValueChangedHandler;
+
+                toolbar.AddWidget(enumPopup);
             }
 
             //search field
             {
-                USearchField searchFiled = toolbar.AddSearchFiled(UToolbar.Alignment.Right);
+                USearchField searchFiled = new USearchField();
                 searchFiled.OnTextChanged += OnSerachTextChangedHander;
+
+                toolbar.AddWidget(searchFiled, UToolbar.Alignment.Right);
             }
 
             AddWidget(toolbar);

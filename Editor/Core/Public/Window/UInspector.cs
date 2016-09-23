@@ -63,7 +63,7 @@ namespace UEditorGUI
         /// 
         /// </summary>
         /// <param name="widget"></param>
-        public void AddWidget(UWidget widget)
+        public void AddWidget(UControl widget)
         {
             _layout.AddWidget(widget);
         }

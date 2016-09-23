@@ -13,7 +13,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        protected bool _toggled = false;
+        private bool _toggled = false;
 
         #endregion
 
@@ -43,17 +43,7 @@ namespace UEditorGUI
         public UToggleButton(string caption)
             : base(caption)
         {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="caption"></param>
-        /// <param name="style"></param>
-        protected UToggleButton(string caption, GUIStyle style)
-            : base(caption)
-        {
-            this.style = style;
+            
         }
 
         #endregion
@@ -65,7 +55,8 @@ namespace UEditorGUI
         /// </summary>
         protected override void UpdateGUI()
         {
-            Rect rect = GUILayoutUtility.GetRect(new GUIContent(caption), style, GUILayout.ExpandWidth(false));
+            style = attachOnToolbar ? EditorStyles.toolbarButton : GUI.skin.GetStyle("Button");
+            Rect rect = GUILayoutUtility.GetRect(new GUIContent(caption), style, GUILayout.ExpandWidth(!attachOnToolbar));
 
             EditorGUI.BeginChangeCheck();
             {

@@ -14,6 +14,11 @@ namespace UEditorGUI
         /// </summary>
         private GUIStyle _style = GUIStyle.none;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool _attachOnToolbar = false;
+
         #endregion
 
         #region Privte
@@ -30,9 +35,19 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
+        protected bool attachOnToolbar
+        {
+            set { _attachOnToolbar = value; }
+            get { return _attachOnToolbar; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="control"></param>
         protected static void ActiveToolbarGuiStyle(UControl control)
         {
+            control.attachOnToolbar = true;
             control.ActiveToolbarGuiStyle();
         }
 
@@ -42,7 +57,8 @@ namespace UEditorGUI
         /// <param name="control"></param>
         protected static void UnActiveToolbarGuiStyle(UControl control)
         {
-            control.style = GUIStyle.none;
+            control.attachOnToolbar = false;
+            control._style = GUIStyle.none;
         }
 
         /// <summary>
@@ -50,7 +66,6 @@ namespace UEditorGUI
         /// </summary>
         protected virtual void ActiveToolbarGuiStyle()
         {
-
         }
 
         #endregion

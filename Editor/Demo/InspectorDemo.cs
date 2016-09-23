@@ -28,91 +28,88 @@ public class InspectorDemo : UInspector
 
     public InspectorDemo()
     {
-        //label
-        ULabel label = new ULabel("Label");
-        AddWidget(label);
 
-        AddWidget(new UFixedSpace(SPACE_PIXELS));
+        UFolder labelFolder = new UFolder("Label Folder");
+        AddWidget(labelFolder);
 
-        //help box
+        ULabel label = new ULabel("This is a label");
+        labelFolder.AddWidget(label);
+
+        UFolder helpboxFolder = new UFolder("HelpBox Folder");
+        AddWidget(helpboxFolder);
+
         UHelpBox helpBox = new UHelpBox("HelpBox", MessageType.Info);
-        AddWidget(helpBox);
+        helpboxFolder.AddWidget(helpBox);
 
-        AddWidget(new UFixedSpace(SPACE_PIXELS));
+        UFolder fieldFolder = new UFolder("Field Folder");
+        AddWidget(fieldFolder);
 
-        //field
-        {
-            UTextField textField = new UTextField("Text Filed");
-            AddWidget(textField);
+        UTextField textField = new UTextField("Text Filed");
+        fieldFolder.AddWidget(textField);
 
-            UIntField intField = new UIntField("Int Field");
-            AddWidget(intField);
+        UIntField intField = new UIntField("Int Field");
+        fieldFolder.AddWidget(intField);
 
-            UFloatField floatField = new UFloatField("Float Field");
-            AddWidget(floatField);
+        UFloatField floatField = new UFloatField("Float Field");
+        fieldFolder.AddWidget(floatField);
 
-            UObjectField objectField = new UObjectField("Object Field", typeof(GameObject));
-            AddWidget(objectField);
+        UObjectField objectField = new UObjectField("Object Field", typeof(GameObject));
+        fieldFolder.AddWidget(objectField);
 
-            UAnimationCurveField curveField = new UAnimationCurveField("AnimationCurve Filed");
-            AddWidget(curveField);
+        UAnimationCurveField curveField = new UAnimationCurveField("AnimationCurve Filed");
+        fieldFolder.AddWidget(curveField);
 
-            UColorField colorField = new UColorField("Color Field");
-            AddWidget(colorField);
+        UColorField colorField = new UColorField("Color Field");
+        fieldFolder.AddWidget(colorField);
 
-            UBoundsField boundsField = new UBoundsField("Bounds Field");
-            AddWidget(boundsField);
+        UBoundsField boundsField = new UBoundsField("Bounds Field");
+        fieldFolder.AddWidget(boundsField);
 
-            URectField rectField = new URectField("Rect Field");
-            AddWidget(rectField);
+        URectField rectField = new URectField("Rect Field");
+        fieldFolder.AddWidget(rectField);
 
-            UVector2Filed vector2Field = new UVector2Filed("Vector2 Field");
-            AddWidget(vector2Field);
+        UVector2Filed vector2Field = new UVector2Filed("Vector2 Field");
+        fieldFolder.AddWidget(vector2Field);
 
-            UVector3Filed vector3Field = new UVector3Filed("Vector3 Field");
-            AddWidget(vector3Field);
+        UVector3Filed vector3Field = new UVector3Filed("Vector3 Field");
+        fieldFolder.AddWidget(vector3Field);
 
-            UVector4Filed vector4Field = new UVector4Filed("Vector4 Field");
-            AddWidget(vector4Field);
+        UVector4Filed vector4Field = new UVector4Filed("Vector4 Field");
+        fieldFolder.AddWidget(vector4Field);
 
-            USearchField searchField = new USearchField("Search Field");
-            AddWidget(searchField);
-        }
+        USearchField searchField = new USearchField("Search Field");
+        fieldFolder.AddWidget(searchField);
 
-        AddWidget(new UFixedSpace(SPACE_PIXELS));
+        UFolder sliderFolder = new UFolder("Slider Folder");
+        AddWidget(sliderFolder);
 
-        //int slider
         UIntSlider intSlider = new UIntSlider("Int Slider", 5, 0, 10);
-        AddWidget(intSlider);
+        sliderFolder.AddWidget(intSlider);
 
-        AddWidget(new UFixedSpace(SPACE_PIXELS));
+        UFolder popupFolder = new UFolder("Popup Folder");
+        AddWidget(popupFolder);
 
-        //popup
-        {
-            UEnumPopup enumPopup = new UEnumPopup("Enum Popup", EnumType.B);
-            AddWidget(enumPopup);
+        UEnumPopup enumPopup = new UEnumPopup("Enum Popup", EnumType.B);
+        popupFolder.AddWidget(enumPopup);
 
-            int[] popupValues = new int[] { 1, 3, 5, 7, 9 };
-            string[] popupTexts = new string[] { "1", "3", "5", "7", "9" };
+        int[] popupValues = new int[] { 1, 3, 5, 7, 9 };
+        string[] popupTexts = new string[] { "1", "3", "5", "7", "9" };
 
-            UIntPopup intPopup = new UIntPopup("Int Popup", popupValues[2], popupValues, popupTexts);
-            AddWidget(intPopup);
-        }
+        UIntPopup intPopup = new UIntPopup("Int Popup", popupValues[2], popupValues, popupTexts);
+        popupFolder.AddWidget(intPopup);
 
-        AddWidget(new UFixedSpace(SPACE_PIXELS));
+        UFolder buttonFolder = new UFolder("Button Folder");
+        AddWidget(buttonFolder);
 
-        //button
-        {
-            UButton button = new UButton("Button");
-            button.color = Color.green;
-            AddWidget(button);
+        UButton button = new UButton("Button");
+        button.color = Color.green;
+        buttonFolder.AddWidget(button);
 
-            UMiniButton miniButton = new UMiniButton("Mini Button");
-            miniButton.color = Color.red;
-            AddWidget(miniButton);
+        UMiniButton miniButton = new UMiniButton("Mini Button");
+        miniButton.color = Color.red;
+        buttonFolder.AddWidget(miniButton);
 
-            UToggleButton toggleButton = new UToggleButton("Toggle Button");
-            AddWidget(toggleButton);
-        }
+        UToggleButton toggleButton = new UToggleButton("Toggle Button");
+        buttonFolder.AddWidget(toggleButton);
     }
 }

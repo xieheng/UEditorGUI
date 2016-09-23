@@ -6,19 +6,14 @@ namespace UEditorGUI
     /// <summary>
     /// 
     /// </summary>
-    public class UFolder : UControlArea
+    public class UFoldout : UControlArea
     {
         #region Data
 
         /// <summary>
         /// 
         /// </summary>
-        private string _caption = string.Empty;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private bool _folder = false;
+        private bool _foldout = false;
 
         #endregion
 
@@ -28,9 +23,9 @@ namespace UEditorGUI
         /// 
         /// </summary>
         /// <param name="caption"></param>
-        public UFolder(string caption)
+        public UFoldout(string caption)
+            : base(caption)
         {
-            _caption = caption;
         }
 
         /// <summary>
@@ -38,10 +33,10 @@ namespace UEditorGUI
         /// </summary>
         /// <param name="caption"></param>
         /// <param name="folder"></param>
-        public UFolder(string caption, bool folder)
+        public UFoldout(string caption, bool foldout)
+            : base(caption)
         {
-            _caption = caption;
-            _folder = folder;
+            _foldout = foldout;
         }
 
         #endregion
@@ -53,8 +48,8 @@ namespace UEditorGUI
         /// </summary>
         public override void OnGUI()
         {
-            _folder = EditorGUILayout.Foldout(_folder, _caption);
-            if (_folder)
+            _foldout = EditorGUILayout.Foldout(_foldout, caption);
+            if (_foldout)
             {
                 DrawControls();
             }

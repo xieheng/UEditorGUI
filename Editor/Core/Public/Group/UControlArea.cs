@@ -8,7 +8,12 @@ namespace UEditorGUI
     /// </summary>
     public abstract class UControlArea : UControl
     {
-        #region
+        #region Data
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private string _caption = string.Empty;
 
         /// <summary>
         /// 
@@ -22,9 +27,9 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        protected UControlArea()
+        protected UControlArea(string caption)
         {
-
+            _caption = caption;
         }
 
         #endregion
@@ -47,6 +52,15 @@ namespace UEditorGUI
         public void AddLayout(ULayout layout)
         {
             _layout.AddLayout(layout);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string caption
+        {
+            set { _caption = value; }
+            get { return _caption; }
         }
 
         #endregion

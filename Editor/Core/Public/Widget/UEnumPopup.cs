@@ -32,23 +32,6 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public UEnumPopup()
-        {
-
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="caption"></param>
-        public UEnumPopup(string caption)
-            : base(caption)
-        {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="enumValue"></param>
         public UEnumPopup(System.Enum enumValue)
         {
@@ -77,7 +60,14 @@ namespace UEditorGUI
         {
             EditorGUI.BeginChangeCheck();
             {
-                _enum = EditorGUILayout.EnumPopup(caption, _enum, style);
+                if (style == GUIStyle.none)
+                {
+                    _enum = EditorGUILayout.EnumPopup(caption, _enum);
+                }
+                else
+                {
+                    _enum = EditorGUILayout.EnumPopup(caption, _enum, style);
+                }
             }
             bool changed = EditorGUI.EndChangeCheck();
 

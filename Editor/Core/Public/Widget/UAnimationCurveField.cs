@@ -13,7 +13,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        private AnimationCurve _curve = null;
+        private AnimationCurve _curve = new AnimationCurve();
 
         #endregion
 

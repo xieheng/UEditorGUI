@@ -190,7 +190,7 @@ public class WindowDemo : UWindow
     /// <param name="args"></param>
     private void OnEnumValueChangedHandler(UEnumEventArgs args)
     {
-        Debug.Log("Enum vlaue changed: " + args.Value.ToString());
+        Debug.Log("Enum vlaue changed: " + args.value.ToString());
     }
 
     /// <summary>
@@ -199,7 +199,7 @@ public class WindowDemo : UWindow
     /// <param name="args"></param>
     private void OnSerachTextChangedHander(UTextEventArgs args)
     {
-        Debug.Log("Now you are search by text: " + args.Text);
+        Debug.Log("Now you are search by text: " + args.text);
     }
 
     /// <summary>
@@ -208,7 +208,7 @@ public class WindowDemo : UWindow
     /// <param name="args"></param>
     void OnToggleChangedHandler(UToggleEventArgs args)
     {
-        Debug.Log("Toggle state changed: " + args.IsToggled);
+        Debug.Log("Toggle state changed: " + args.toggled);
     }
 
     #endregion

@@ -72,5 +72,18 @@ namespace UEditorGUI
         }
 
         #endregion
+
+        #region Public
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool foldout
+        {
+            set { _foldout = value; }
+            get { return _foldout; }
+        }
+
+        #endregion
     }
 }

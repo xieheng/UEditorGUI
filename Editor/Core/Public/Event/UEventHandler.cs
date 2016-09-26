@@ -54,6 +54,12 @@ namespace UEditorGUI
     /// 
     /// </summary>
     /// <param name="args"></param>
+    public delegate void URectChangedEventHandler(URectEventArgs args);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="args"></param>
     public delegate void UColorChangedEventHandler(UColorEventArgs args);
 
     /// <summary>

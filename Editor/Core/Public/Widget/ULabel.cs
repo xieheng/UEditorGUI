@@ -41,5 +41,18 @@ namespace UEditorGUI
         }
 
         #endregion
+
+        #region Public
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string text
+        {
+            set { _text = value; }
+            get { return _text; }
+        }
+
+        #endregion
     }
 }

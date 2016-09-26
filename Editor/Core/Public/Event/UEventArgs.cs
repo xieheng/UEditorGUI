@@ -37,7 +37,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public object Sender
+        public object sender
         {
             get { return _sender; }
         }
@@ -83,7 +83,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public string Text
+        public string text
         {
             get { return _text; }
         }
@@ -124,7 +124,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public int Value
+        public int value
         {
             get { return _value; }
         }
@@ -165,7 +165,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public float Value
+        public float value
         {
             get { return _value; }
         }
@@ -211,7 +211,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public System.Enum Value
+        public System.Enum value
         {
             get { return _enum; }
         }
@@ -257,7 +257,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public bool IsToggled
+        public bool toggled
         {
             get { return _toggled; }
         }
@@ -303,7 +303,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public System.Object Object
+        public System.Object targetObject
         {
             get { return _object; }
         }
@@ -349,9 +349,56 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public Bounds Bounds
+        public Bounds bounds
         {
             get { return _bounds; }
+        }
+
+        #endregion
+    }
+
+    #endregion
+
+    #region URectEventArgs
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class URectEventArgs : UEventArgs
+    {
+        
+        #region Data
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private Rect _rect = new Rect();
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="color"></param>
+        public URectEventArgs(object sender, Rect rect)
+            : base(sender)
+        {
+            _rect = rect;
+        }
+
+        #endregion
+
+        #region Public
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Rect rect
+        {
+            get { return _rect; }
         }
 
         #endregion
@@ -395,7 +442,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public Color Color
+        public Color color
         {
             get { return _color; }
         }
@@ -441,7 +488,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public AnimationCurve Curve
+        public AnimationCurve animationCurve
         {
             get { return _curve; }
         }
@@ -487,7 +534,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public Vector2 Vector
+        public Vector2 vector2
         {
             get { return _vector; }
         }
@@ -533,7 +580,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public Vector3 Vector
+        public Vector3 vector3
         {
             get { return _vector; }
         }
@@ -579,7 +626,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public Vector4 Vector
+        public Vector4 vector4
         {
             get { return _vector; }
         }

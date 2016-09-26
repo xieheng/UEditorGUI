@@ -89,6 +89,24 @@ namespace UEditorGUI
 
         #endregion
 
+        #region Public 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int value
+        {
+            set
+            {
+                _value = value;
+                OnValueChangedHandler();
+            }
+
+            get { return _value; }
+        }
+
+        #endregion
+
         #region Private
 
         /// <summary>

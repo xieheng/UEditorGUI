@@ -87,6 +87,24 @@ namespace UEditorGUI
 
         #endregion
 
+        #region Public
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public System.Enum value
+        {
+            set 
+            {
+                _enum = value;
+                OnValueChangedHandler();
+            }
+
+            get { return _enum; }
+        }
+
+        #endregion
+
         #region Private
 
         /// <summary>

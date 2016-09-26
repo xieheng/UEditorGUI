@@ -17,6 +17,12 @@ namespace UEditorGUI
 
         #endregion
 
+        #region Event
+
+        public event URectChangedEventHandler OnValueChanged;
+
+        #endregion
+
         #region Construction
 
         /// <summary>
@@ -104,7 +110,11 @@ namespace UEditorGUI
         /// </summary>
         private void OnValueChangedHandler()
         {
-
+            if (OnValueChanged != null)
+            {
+                URectEventArgs args = new URectEventArgs(this, _value);
+                OnValueChanged(args);
+            }
         }
 
         #endregion

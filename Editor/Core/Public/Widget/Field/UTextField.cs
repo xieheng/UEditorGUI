@@ -102,6 +102,24 @@ namespace UEditorGUI
 
         #endregion
 
+        #region Public
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string text
+        {
+            set
+            {
+                _text = value;
+                OnTextChangedHandler();
+            }
+
+            get { return _text; }
+        }
+
+        #endregion
+
         #region Private
 
         /// <summary>

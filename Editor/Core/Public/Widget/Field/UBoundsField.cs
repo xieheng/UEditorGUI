@@ -88,6 +88,24 @@ namespace UEditorGUI
 
         #endregion
 
+        #region Public 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Bounds bounds
+        {
+            set
+            {
+                _bounds = value;
+                OnBoundsChangedHandler();
+            }
+
+            get { return _bounds; }
+        }
+
+        #endregion
+
         #region Private
 
         /// <summary>

@@ -88,6 +88,24 @@ namespace UEditorGUI
 
         #endregion
 
+        #region Public
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Color color
+        {
+            set
+            {
+                _value = value;
+                OnColorChangedHandler();
+            }
+
+            get { return _value; }
+        }
+
+        #endregion
+
         #region Private
 
         /// <summary>

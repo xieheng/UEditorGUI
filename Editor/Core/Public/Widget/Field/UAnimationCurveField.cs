@@ -88,7 +88,25 @@ namespace UEditorGUI
 
         #endregion
 
-        #region
+        #region Public 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public AnimationCurve animationCurve
+        {
+            set
+            {
+                _curve = value;
+                OnAnimationCurveChangedHandler();
+            }
+
+            get { return _curve; }
+        }
+
+        #endregion
+
+        #region Private
 
         /// <summary>
         /// 

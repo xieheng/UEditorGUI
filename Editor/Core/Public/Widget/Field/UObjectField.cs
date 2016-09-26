@@ -76,6 +76,24 @@ namespace UEditorGUI
 
         #endregion
 
+        #region Public
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Object targetObject
+        {
+            set 
+            {
+                _object = value;
+                OnObjectChangedHandler();
+            }
+
+            get { return _object; }
+        }
+
+        #endregion
+
         #region Private
 
         /// <summary>

@@ -88,6 +88,24 @@ namespace UEditorGUI
 
         #endregion
 
+        #region Public
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Vector4 vector4
+        {
+            set
+            {
+                _vector = value;
+                OnValueChangedHandler();
+            }
+
+            get { return _vector; }
+        }
+
+        #endregion
+
         #region Private
 
         /// <summary>

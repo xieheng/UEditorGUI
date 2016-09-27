@@ -71,7 +71,25 @@ namespace UEditorGUI
 
         #endregion
 
-        #region Private 
+        #region Public
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int layer
+        {
+            set
+            {
+                _layer = value;
+                OnLayerChangedHandler();
+            }
+
+            get { return _layer; }
+        }
+
+        #endregion
+
+        #region Private
 
         /// <summary>
         /// 

@@ -26,88 +26,123 @@ public class InspectorDemo : UInspector
 
     public InspectorDemo()
     {
+        // label
+        {
+            UDrawer labelDrawer = new UDrawer("Label Drawer");
+            AddWidget(labelDrawer);
 
-        UDrawer labelDrawer = new UDrawer("Label Drawer");
-        AddWidget(labelDrawer);
+            ULabel label = new ULabel("This is a label");
+            labelDrawer.AddWidget(label);
 
-        ULabel label = new ULabel("This is a label");
-        labelDrawer.AddWidget(label);
+            UFixedSpace space = new UFixedSpace(3);
+            AddWidget(space);
+        }
 
-        UDrawer helpboxDrawer = new UDrawer("HelpBox Drawer");
-        AddWidget(helpboxDrawer);
+        // helpbox
+        {
+            UDrawer helpboxDrawer = new UDrawer("HelpBox Drawer");
+            AddWidget(helpboxDrawer);
 
-        UHelpBox helpBox = new UHelpBox("HelpBox", MessageType.Info);
-        helpboxDrawer.AddWidget(helpBox);
+            UHelpBox helpBox = new UHelpBox("HelpBox", MessageType.Info);
+            helpboxDrawer.AddWidget(helpBox);
 
-        UDrawer fieldDrawer = new UDrawer("Field Drawer");
-        AddWidget(fieldDrawer);
+            UFixedSpace space = new UFixedSpace(3);
+            AddWidget(space);
+        }
 
-        UTextField textField = new UTextField("Text Filed");
-        fieldDrawer.AddWidget(textField);
+        // field
+        {
+            UDrawer fieldDrawer = new UDrawer("Field Drawer");
+            AddWidget(fieldDrawer);
 
-        UIntField intField = new UIntField("Int Field");
-        fieldDrawer.AddWidget(intField);
+            UTextField textField = new UTextField("Text Filed");
+            fieldDrawer.AddWidget(textField);
 
-        UFloatField floatField = new UFloatField("Float Field");
-        fieldDrawer.AddWidget(floatField);
+            UIntField intField = new UIntField("Int Field");
+            fieldDrawer.AddWidget(intField);
 
-        UObjectField objectField = new UObjectField("Object Field", typeof(GameObject));
-        fieldDrawer.AddWidget(objectField);
+            UFloatField floatField = new UFloatField("Float Field");
+            fieldDrawer.AddWidget(floatField);
 
-        UAnimationCurveField curveField = new UAnimationCurveField("AnimationCurve Filed");
-        fieldDrawer.AddWidget(curveField);
+            UObjectField objectField = new UObjectField("Object Field", typeof(GameObject));
+            fieldDrawer.AddWidget(objectField);
 
-        UColorField colorField = new UColorField("Color Field");
-        fieldDrawer.AddWidget(colorField);
+            UAnimationCurveField curveField = new UAnimationCurveField("AnimationCurve Filed");
+            fieldDrawer.AddWidget(curveField);
 
-        UBoundsField boundsField = new UBoundsField("Bounds Field");
-        fieldDrawer.AddWidget(boundsField);
+            UColorField colorField = new UColorField("Color Field");
+            fieldDrawer.AddWidget(colorField);
 
-        URectField rectField = new URectField("Rect Field");
-        fieldDrawer.AddWidget(rectField);
+            UBoundsField boundsField = new UBoundsField("Bounds Field");
+            fieldDrawer.AddWidget(boundsField);
 
-        UVector2Filed vector2Field = new UVector2Filed("Vector2 Field");
-        fieldDrawer.AddWidget(vector2Field);
+            URectField rectField = new URectField("Rect Field");
+            fieldDrawer.AddWidget(rectField);
 
-        UVector3Filed vector3Field = new UVector3Filed("Vector3 Field");
-        fieldDrawer.AddWidget(vector3Field);
+            UVector2Filed vector2Field = new UVector2Filed("Vector2 Field");
+            fieldDrawer.AddWidget(vector2Field);
 
-        UVector4Filed vector4Field = new UVector4Filed("Vector4 Field");
-        fieldDrawer.AddWidget(vector4Field);
+            UVector3Filed vector3Field = new UVector3Filed("Vector3 Field");
+            fieldDrawer.AddWidget(vector3Field);
 
-        USearchField searchField = new USearchField("Search Field");
-        fieldDrawer.AddWidget(searchField);
+            UVector4Filed vector4Field = new UVector4Filed("Vector4 Field");
+            fieldDrawer.AddWidget(vector4Field);
 
-        UDrawer sliderDrawer = new UDrawer("Slider Drawer");
-        AddWidget(sliderDrawer);
+            USearchField searchField = new USearchField("Search Field");
+            fieldDrawer.AddWidget(searchField);
 
-        UIntSlider intSlider = new UIntSlider("Int Slider", 5, 0, 10);
-        sliderDrawer.AddWidget(intSlider);
+            UFixedSpace space = new UFixedSpace(3);
+            AddWidget(space);
+        }
 
-        UDrawer popupDrawer = new UDrawer("Popup Drawer");
-        AddWidget(popupDrawer);
+        // slider
+        {
+            UDrawer sliderDrawer = new UDrawer("Slider Drawer");
+            AddWidget(sliderDrawer);
 
-        UEnumPopup enumPopup = new UEnumPopup("Enum Popup", EnumType.B);
-        popupDrawer.AddWidget(enumPopup);
+            UIntSlider intSlider = new UIntSlider("Int Slider", 5, 0, 10);
+            sliderDrawer.AddWidget(intSlider);
 
-        int[] popupValues = new int[] { 1, 3, 5, 7, 9 };
-        string[] popupTexts = new string[] { "1", "3", "5", "7", "9" };
+            UFixedSpace space = new UFixedSpace(3);
+            AddWidget(space);
+        }
 
-        UIntPopup intPopup = new UIntPopup("Int Popup", popupValues[2], popupValues, popupTexts);
-        popupDrawer.AddWidget(intPopup);
+        // popup
+        {
+            UDrawer popupDrawer = new UDrawer("Popup Drawer");
+            AddWidget(popupDrawer);
 
-        UDrawer buttonDrawer = new UDrawer("Button Drawer");
-        AddWidget(buttonDrawer);
+            UEnumPopup enumPopup = new UEnumPopup("Enum Popup", EnumType.B);
+            popupDrawer.AddWidget(enumPopup);
 
-        UButton button = new UButton("Button");
-        button.color = Color.green;
-        buttonDrawer.AddWidget(button);
+            int[] popupValues = new int[] { 1, 3, 5, 7, 9 };
+            string[] popupTexts = new string[] { "1", "3", "5", "7", "9" };
 
-        UMiniButton miniButton = new UMiniButton("Mini Button");
-        miniButton.color = Color.red;
-        buttonDrawer.AddWidget(miniButton);
+            UIntPopup intPopup = new UIntPopup("Int Popup", popupValues[2], popupValues, popupTexts);
+            popupDrawer.AddWidget(intPopup);
 
-        UToggleButton toggleButton = new UToggleButton("Toggle Button");
-        buttonDrawer.AddWidget(toggleButton);
+            ULayerPopup layerPopup = new ULayerPopup("Layer Popup", 0);
+            popupDrawer.AddWidget(layerPopup);
+
+            UFixedSpace space = new UFixedSpace(3);
+            AddWidget(space);
+        }
+
+        // button
+        {
+            UDrawer buttonDrawer = new UDrawer("Button Drawer");
+            AddWidget(buttonDrawer);
+
+            UButton button = new UButton("Button");
+            button.color = Color.green;
+            buttonDrawer.AddWidget(button);
+
+            UMiniButton miniButton = new UMiniButton("Mini Button");
+            miniButton.color = Color.red;
+            buttonDrawer.AddWidget(miniButton);
+
+            UToggleButton toggleButton = new UToggleButton("Toggle Button");
+            buttonDrawer.AddWidget(toggleButton);
+        }
     }
 }

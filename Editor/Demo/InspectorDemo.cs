@@ -124,6 +124,9 @@ public class InspectorDemo : UInspector
             ULayerPopup layerPopup = new ULayerPopup("Layer Popup", 0);
             popupDrawer.AddWidget(layerPopup);
 
+            UTagPopup tagPopup = new UTagPopup("Tag Popup", "Untagged");
+            popupDrawer.AddWidget(tagPopup);
+
             UFixedSpace space = new UFixedSpace(3);
             AddWidget(space);
         }

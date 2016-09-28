@@ -13,7 +13,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        private string _tag = string.Empty;
+        private string _tag = "Untagged";
 
         #endregion
 

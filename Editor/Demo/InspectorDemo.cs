@@ -24,6 +24,14 @@ public class InspectorDemo : UInspector
         D
     }
 
+    enum EnumMaskType
+    {
+        AM,
+        BM,
+        CM,
+        DM
+    }
+
     public InspectorDemo()
     {
         // label
@@ -126,6 +134,9 @@ public class InspectorDemo : UInspector
 
             UTagPopup tagPopup = new UTagPopup("Tag Popup", "Untagged");
             popupDrawer.AddWidget(tagPopup);
+
+            UEnumMaskPopup enumMaskPopup = new UEnumMaskPopup("Enum Mask Popup", EnumMaskType.BM);
+            popupDrawer.AddWidget(enumMaskPopup);
 
             UFixedSpace space = new UFixedSpace(3);
             AddWidget(space);

@@ -99,6 +99,9 @@ public class InspectorDemo : UInspector
             USearchField searchField = new USearchField("Search Field");
             fieldDrawer.AddWidget(searchField);
 
+            //UPropertyField propertyField = new UPropertyField("Property Field", null);
+            //fieldDrawer.AddWidget(propertyField);
+
             UFixedSpace space = new UFixedSpace(3);
             AddWidget(space);
         }

@@ -102,6 +102,9 @@ public class InspectorDemo : UInspector
             //UPropertyField propertyField = new UPropertyField("Property Field", null);
             //fieldDrawer.AddWidget(propertyField);
 
+            UPasswordField passwordFiled = new UPasswordField("Password Field", "123");
+            fieldDrawer.AddWidget(passwordFiled);
+
             UFixedSpace space = new UFixedSpace(3);
             AddWidget(space);
         }

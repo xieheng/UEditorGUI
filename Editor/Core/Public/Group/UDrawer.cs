@@ -63,7 +63,13 @@ namespace UEditorGUI
 
             if (_foldout)
             {
+#if UNITY_4_7
                 EditorGUILayout.BeginVertical("As TextArea", GUILayout.MinHeight(10));
+#elif UNITY_5
+                EditorGUILayout.BeginVertical("As TextArea", GUILayout.MinHeight(10));
+#elif UNITY_2017
+                EditorGUILayout.BeginVertical("TextArea", GUILayout.MinHeight(10));
+#endif
                 {
                     DrawControls();
                 }

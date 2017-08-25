@@ -85,6 +85,8 @@ namespace UEditorGUI.Internal.Styles
             UEditorStyles assets = AssetDatabase.LoadAssetAtPath("Assets/UEditorGUI/Editor/Core/Internal/Styles/UEditorStyles_4.x.asset", typeof(UEditorStyles)) as UEditorStyles;
 #elif UNITY_5
             UEditorStyles assets = AssetDatabase.LoadAssetAtPath("Assets/UEditorGUI/Editor/Core/Internal/Styles/UEditorStyles_5.x.asset", typeof(UEditorStyles)) as UEditorStyles;
+#elif UNITY_2017
+            UEditorStyles assets = AssetDatabase.LoadAssetAtPath("Assets/UEditorGUI/Editor/Core/Internal/Styles/UEditorStyles_5.x.asset", typeof(UEditorStyles)) as UEditorStyles;
 #endif
 
             if (assets == null)

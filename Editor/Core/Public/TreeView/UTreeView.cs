@@ -273,6 +273,11 @@ namespace UEditorGUI
                 AddToSelectedList(next);
 
                 _selectedChanged = true;
+
+                if (next.Rect.y + next.Rect.height >= _rect.height + _scrollPos.y)
+                {
+                    _scrollPos.y += next.Rect.height;
+                }
             }
         }
 
@@ -377,6 +382,11 @@ namespace UEditorGUI
                 AddToSelectedList(prev);
 
                 _selectedChanged = true;
+
+                if (prev.Rect.y  < _scrollPos.y)
+                {
+                    _scrollPos.y -= prev.Rect.height;
+                }
             }
         }
 

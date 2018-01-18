@@ -56,7 +56,10 @@ namespace UEditorGUI.Internal.TreeView
 
         #region Public
 
-        public Rect Rect
+        /// <summary>
+        /// 
+        /// </summary>
+        public Rect rect
         {
             get { return _rect; }
         }
@@ -64,7 +67,7 @@ namespace UEditorGUI.Internal.TreeView
         /// <summary>
         /// 
         /// </summary>
-        public bool IsSelected
+        public bool selected
         {
             set { _selected = value; }
             get { return _selected; }
@@ -73,7 +76,7 @@ namespace UEditorGUI.Internal.TreeView
         /// <summary>
         /// 
         /// </summary>
-        public bool IsFoldout
+        public bool foldout
         {
             set 
             {

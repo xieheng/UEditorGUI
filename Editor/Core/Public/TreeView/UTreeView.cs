@@ -15,6 +15,11 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
+        private bool _hasFocus = false;
+
+        /// <summary>
+        /// 
+        /// </summary>
         private Vector2 _scrollPos = Vector2.zero;
 
         /// <summary>
@@ -25,7 +30,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        private List<UTreeViewItemImp> _selected = new List<UTreeViewItemImp>();
+        private List<UTreeViewItemImp> _selections = new List<UTreeViewItemImp>();
 
         /// <summary>
         /// 
@@ -60,9 +65,12 @@ namespace UEditorGUI
         /// </summary>
         public override void OnFocus()
         {
-            foreach (UTreeViewItemImp child in _children)
+            if (_hasFocus)
             {
-                child.OnFocus();
+                foreach (UTreeViewItemImp child in _children)
+                {
+                    child.OnFocus();
+                }
             }
 
             base.OnFocus();
@@ -88,9 +96,9 @@ namespace UEditorGUI
         {
             _selectedChanged = false;
 
-            _rect = EditorGUILayout.BeginVertical(/*EditorStyles.textArea*/);
+            EditorGUILayout.BeginVertical("box");
             {
-                _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos, GUILayout.ExpandHeight(true));
+                _scrollPos = GUILayout.BeginScrollView(_scrollPos, GUILayout.ExpandHeight(true));
                 {
                     for (int i = 0; i < _children.Count; i++)
                     {
@@ -98,7 +106,9 @@ namespace UEditorGUI
                         child.OnGUI();
                     }
                 }
-                EditorGUILayout.EndScrollView();
+                GUILayout.EndScrollView();
+
+                _rect = GUILayoutUtility.GetLastRect();
             }
             EditorGUILayout.EndVertical();
 
@@ -133,18 +143,18 @@ namespace UEditorGUI
         /// <param name="child"></param>
         public void Remove(UTreeViewItem item)
         {
-            UTreeViewItemImp itemImp = item as UTreeViewItemImp;
-            RemoveFromSelectedList(itemImp);
+            UTreeViewItemImp imp = item as UTreeViewItemImp;
+            RemoveFromSelectedList(imp);
 
-            if (_children.Contains(itemImp))
+            if (_children.Contains(imp))
             {
-                _children.Remove(itemImp);
+                _children.Remove(imp);
             }
             else
             {
                 foreach (UTreeViewItemImp child in _children)
                 {
-                    if (child.Remove(itemImp))
+                    if (child.Remove(imp))
                     {
                         break;
                     }
@@ -176,7 +186,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public int Count
+        public int count
         {
             get { return _children.Count; }
         }
@@ -194,14 +204,14 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public UTreeViewItem[] SelectedItems
+        public UTreeViewItem[] selections
         {
-            get { return _selected.ToArray(); }
+            get { return _selections.ToArray(); }
         }
         /// <summary>
         /// 
         /// </summary>
-        public bool IsMultiSeletion
+        public bool multiSeletion
         {
             set { _multiSelection = value; }
             get { return _multiSelection; }
@@ -249,15 +259,15 @@ namespace UEditorGUI
         {
             UTreeViewItemImp next = null;
 
-            if (_selected.Count == 0)
+            if (_selections.Count == 0)
             {
                 next = _children[0];
             }
             else
             {
-                UTreeViewItemImp current = _selected[_selected.Count - 1];
+                UTreeViewItemImp current = _selections[_selections.Count - 1];
 
-                if (current.IsFoldout)
+                if (current.foldout)
                 {
                     next = MoveNext(current);
                 }
@@ -274,9 +284,9 @@ namespace UEditorGUI
 
                 _selectedChanged = true;
 
-                if (next.Rect.y + next.Rect.height >= _rect.height + _scrollPos.y)
+                if (next.rect.y + next.rect.height >= _rect.height + _scrollPos.y)
                 {
-                    _scrollPos.y += next.Rect.height;
+                    _scrollPos.y += next.rect.height;
                 }
             }
         }
@@ -287,7 +297,7 @@ namespace UEditorGUI
         /// <param name="item"></param>
         private UTreeViewItemImp MoveNext(UTreeViewItemImp item)
         {
-            if (item.Count > 0)
+            if (item.count > 0)
             {
                 return item[0] as UTreeViewItemImp;
             }
@@ -301,7 +311,7 @@ namespace UEditorGUI
         /// <param name="item"></param>
         private UTreeViewItemImp MoveNextInParent(UTreeViewItemImp item)
         {
-            UTreeViewItemImp parent = item.Parent as UTreeViewItemImp;
+            UTreeViewItemImp parent = item.parent as UTreeViewItemImp;
 
             if (parent == null)//root node
             {
@@ -314,7 +324,7 @@ namespace UEditorGUI
             else//child node
             {
                 int index = parent.IndexOf(item);
-                if (index < parent.Count - 1)
+                if (index < parent.count - 1)
                 {
                     return parent[index + 1] as UTreeViewItemImp;
                 }
@@ -335,14 +345,14 @@ namespace UEditorGUI
         {
             UTreeViewItemImp prev = null;
 
-            if (_selected.Count == 0)
+            if (_selections.Count == 0)
             {
                 prev = _children[0];
             }
             else
             {
-                UTreeViewItemImp current = _selected[0];
-                UTreeViewItemImp parent = current.Parent as UTreeViewItemImp;
+                UTreeViewItemImp current = _selections[0];
+                UTreeViewItemImp parent = current.parent as UTreeViewItemImp;
 
                 if (parent == null)//root node
                 {
@@ -351,9 +361,9 @@ namespace UEditorGUI
                     {
                         prev = _children[index - 1];
 
-                        if (prev.Count > 0 && prev.IsFoldout)
+                        if (prev.count > 0 && prev.foldout)
                         {
-                            prev = prev[prev.Count - 1] as UTreeViewItemImp;
+                            prev = prev[prev.count - 1] as UTreeViewItemImp;
                         }
                     }
                 }
@@ -364,9 +374,9 @@ namespace UEditorGUI
                     {
                         prev = parent[index - 1] as UTreeViewItemImp;
 
-                        if (prev.Count > 0 && prev.IsFoldout)
+                        if (prev.count > 0 && prev.foldout)
                         {
-                            prev = prev[prev.Count - 1] as UTreeViewItemImp;
+                            prev = prev[prev.count - 1] as UTreeViewItemImp;
                         }
                     }
                     else
@@ -383,9 +393,9 @@ namespace UEditorGUI
 
                 _selectedChanged = true;
 
-                if (prev.Rect.y  < _scrollPos.y)
+                if (prev.rect.y  < _scrollPos.y)
                 {
-                    _scrollPos.y -= prev.Rect.height;
+                    _scrollPos.y -= prev.rect.height;
                 }
             }
         }
@@ -396,20 +406,20 @@ namespace UEditorGUI
         /// <param name="item"></param>
         private void ProcessLeftArrayKey()
         {
-            if (_selected.Count == 0)
+            if (_selections.Count == 0)
                 return;
 
-            if (_selected.Count == 1)
+            if (_selections.Count == 1)
             {
-                UTreeViewItemImp item = _selected[0];
+                UTreeViewItemImp item = _selections[0];
 
-                if (item.IsFoldout)
+                if (item.foldout)
                 {
-                    item.IsFoldout = false;
+                    item.foldout = false;
                 }
                 else
                 {
-                    UTreeViewItemImp parent = item.Parent as UTreeViewItemImp;
+                    UTreeViewItemImp parent = item.parent as UTreeViewItemImp;
                     if (parent != null)
                     {
                         ClearSelectedList();
@@ -421,11 +431,11 @@ namespace UEditorGUI
             }
             else
             {
-                foreach (UTreeViewItemImp item in _selected)
+                foreach (UTreeViewItemImp item in _selections)
                 {
-                    if (item.IsFoldout)
+                    if (item.foldout)
                     {
-                        item.IsFoldout = HasSelectedChild(item);
+                        item.foldout = HasSelectedChild(item);
                     }
                 }
             }
@@ -437,20 +447,20 @@ namespace UEditorGUI
         /// <param name="item"></param>
         private void ProcessRightArrayKey()
         {
-            if (_selected.Count == 0)
+            if (_selections.Count == 0)
                 return;
 
-            if (_selected.Count == 1)
+            if (_selections.Count == 1)
             {
-                UTreeViewItemImp item = _selected[0];
+                UTreeViewItemImp item = _selections[0];
 
-                if (!item.IsFoldout)
+                if (!item.foldout)
                 {
-                    item.IsFoldout = true;
+                    item.foldout = true;
                 }
-                else if (item.Count > 0)
+                else if (item.count > 0)
                 {
-                    item.IsSelected = false;
+                    item.selected = false;
                     ClearSelectedList();
 
                     UTreeViewItemImp child = item[0] as UTreeViewItemImp;
@@ -461,11 +471,11 @@ namespace UEditorGUI
             }
             else
             {
-                foreach (UTreeViewItemImp item in _selected)
+                foreach (UTreeViewItemImp item in _selections)
                 {
-                    if (!item.IsFoldout)
+                    if (!item.foldout)
                     {
-                        item.IsFoldout = true;
+                        item.foldout = true;
                     }
                 }
             }
@@ -480,10 +490,10 @@ namespace UEditorGUI
         {
             bool hasSelectedChilld = false;
 
-            for (int i = 0; i < item.Count; i++)
+            for (int i = 0; i < item.count; i++)
             {
                 UTreeViewItemImp child = item[i] as UTreeViewItemImp;
-                hasSelectedChilld = child.IsSelected ? true : HasSelectedChild(child);
+                hasSelectedChilld = child.selected ? true : HasSelectedChild(child);
 
                 if (hasSelectedChilld)
                 {
@@ -501,13 +511,25 @@ namespace UEditorGUI
         {
             if (Event.current.type == EventType.MouseUp)
             {
-                if (Event.current.button == 0)
+                if (!_rect.Contains(Event.current.mousePosition))
                 {
-                    ProcessLeftMouseButton();
+                    _hasFocus = false;
+                    ClearSelectedList();
+                    LostFocus();
                 }
-                else if (Event.current.button == 1)
+                else
                 {
-                    ProcessRightMouseButton();
+                    _hasFocus = true;
+                    OnFocus();
+
+                    if (Event.current.button == 0)
+                    {
+                        ProcessLeftMouseButton();
+                    }
+                    else if (Event.current.button == 1)
+                    {
+                        ProcessRightMouseButton();
+                    }
                 }
             }
         }
@@ -529,10 +551,10 @@ namespace UEditorGUI
                 }
             }
 
-            if (curSelected == null && _selected.Count > 0)
+            if (curSelected == null && _selections.Count > 0)
             {
                 ClearSelectedList();
-                Event.current.Use();
+                //Event.current.Use();
 
                 _selectedChanged = true;
                 return;
@@ -540,7 +562,7 @@ namespace UEditorGUI
 
             if (_multiSelection && Event.current.shift)
             {
-                if (_selected.Count == 0)
+                if (_selections.Count == 0)
                 {
                     AddToSelectedList(curSelected);
                 }
@@ -548,7 +570,7 @@ namespace UEditorGUI
                 {
                     List<UTreeViewItemImp> list = GetItemsInChildren();
 
-                    UTreeViewItemImp first = _selected[0];
+                    UTreeViewItemImp first = _selections[0];
 
                     int firstIndex = list.IndexOf(first);
                     int currentIndex = list.IndexOf(curSelected);
@@ -557,20 +579,20 @@ namespace UEditorGUI
                     int count = Mathf.Abs(firstIndex - currentIndex) + 1;
 
                     List<UTreeViewItemImp> selectedList = list.GetRange(index, count);
-                    _selected.Clear();
+                    _selections.Clear();
 
                     foreach (UTreeViewItemImp child in selectedList)
                     {
-                        child.IsSelected = true;
+                        child.selected = true;
                     }
-                    _selected.AddRange(selectedList);
+                    _selections.AddRange(selectedList);
                 }
 
                 _selectedChanged = true;
             }
             else if (_multiSelection && Event.current.control)
             {
-                if (_selected.Contains(curSelected))
+                if (_selections.Contains(curSelected))
                 {
                     RemoveFromSelectedList(curSelected);
                 }
@@ -583,7 +605,7 @@ namespace UEditorGUI
             }
             else
             {
-                if (_selected.Count == 1 && curSelected == _selected[0])
+                if (_selections.Count == 1 && curSelected == _selections[0])
                 {
                     //_selectedChanged = false;
                 }
@@ -596,7 +618,7 @@ namespace UEditorGUI
                 }
             }
 
-            Event.current.Use();
+            //Event.current.Use();
         }
 
         /// <summary>
@@ -613,8 +635,11 @@ namespace UEditorGUI
         /// <param name="item"></param>
         private void AddToSelectedList(UTreeViewItemImp item)
         {
-            item.IsSelected = true;
-            _selected.Add(item);
+            if (item != null)
+            {
+                item.selected = true;
+                _selections.Add(item);
+            }
         }
 
         /// <summary>
@@ -623,8 +648,8 @@ namespace UEditorGUI
         /// <param name="item"></param>
         private void RemoveFromSelectedList(UTreeViewItemImp item)
         {
-            item.IsSelected = false;
-            _selected.Remove(item);
+            item.selected = false;
+            _selections.Remove(item);
         }
 
         /// <summary>
@@ -632,12 +657,12 @@ namespace UEditorGUI
         /// </summary>
         private void ClearSelectedList()
         {
-            foreach (UTreeViewItemImp child in _selected)
+            foreach (UTreeViewItemImp child in _selections)
             {
-                child.IsSelected = false;
+                child.selected = false;
             }
 
-            _selected.Clear();
+            _selections.Clear();
         }
 
         /// <summary>

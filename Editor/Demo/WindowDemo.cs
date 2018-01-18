@@ -102,6 +102,19 @@ public class WindowDemo : UWindow
             AddWidget(toolbar);
         }
 
+        //listview
+        {
+            UListView listView = new UListView();
+            AddWidget(listView);
+
+            listView.Add("1");
+            listView.Add("2");
+            listView.Add("3");
+            listView.Add("4");
+            listView.Add("5");
+            listView.Add("6");
+        }
+
         //treeview
         {
             UTreeView treeView = new UTreeView();
@@ -141,6 +154,8 @@ public class WindowDemo : UWindow
             treeView.Add("8");
             treeView.Add("9");
         }
+
+        
     }
 
     #endregion

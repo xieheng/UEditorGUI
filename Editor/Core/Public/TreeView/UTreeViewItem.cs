@@ -15,7 +15,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        protected string _text = "TreeView Item";
+        protected string _text = string.Empty;
 
         /// <summary>
         /// 
@@ -122,7 +122,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public int Count
+        public int count
         {
             get { return _children.Count; }
         }
@@ -140,7 +140,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        public UTreeViewItem Parent
+        public UTreeViewItem parent
         {
             get { return _parent; }
         }

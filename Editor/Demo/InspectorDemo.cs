@@ -51,8 +51,14 @@ public class InspectorDemo : UInspector
             UDrawer helpboxDrawer = new UDrawer("HelpBox Drawer");
             AddWidget(helpboxDrawer);
 
-            UHelpBox helpBox = new UHelpBox("HelpBox", MessageType.Info);
+            UHelpBox helpBox = new UHelpBox("none...", MessageType.None);
             helpboxDrawer.AddWidget(helpBox);
+            UHelpBox infoHelpBox = new UHelpBox("information...", MessageType.Info);
+            helpboxDrawer.AddWidget(infoHelpBox);
+            UHelpBox warningHelpBox = new UHelpBox("warning...", MessageType.Warning);
+            helpboxDrawer.AddWidget(warningHelpBox);
+            UHelpBox errorHelpBox = new UHelpBox("error...", MessageType.Error);
+            helpboxDrawer.AddWidget(errorHelpBox);
 
             UFixedSpace space = new UFixedSpace(3);
             AddWidget(space);
@@ -157,12 +163,65 @@ public class InspectorDemo : UInspector
             button.color = Color.green;
             buttonDrawer.AddWidget(button);
 
-            UMiniButton miniButton = new UMiniButton("Mini Button");
+            UHLayout buttonLayout = new UHLayout();
+            buttonDrawer.AddLayout(buttonLayout);
+
+            UButton leftButton = new UButton("LeftButton", UButton.Style.Left);
+            buttonLayout.AddWidget(leftButton);
+            UButton midButton = new UButton("MidButton", UButton.Style.Middle);
+            buttonLayout.AddWidget(midButton);
+            UButton rightButton = new UButton("RightButton", UButton.Style.Right);
+            buttonLayout.AddWidget(rightButton);
+
+            UButton miniButton = new UButton("Mini Button", UButton.Style.Mini);
             miniButton.color = Color.red;
             buttonDrawer.AddWidget(miniButton);
 
+            UHLayout miniButtonLayout = new UHLayout();
+            buttonDrawer.AddLayout(miniButtonLayout);
+
+            UButton leftMiniButton = new UButton("Left Mini Button", UButton.Style.MiniLeft);
+            miniButtonLayout.AddWidget(leftMiniButton);
+            UButton midMiniButton = new UButton("Mid Mini Button", UButton.Style.MiniMiddle);
+            miniButtonLayout.AddWidget(midMiniButton);
+            UButton rightMiniButton = new UButton("Right Mini Button", UButton.Style.MiniRight);
+            miniButtonLayout.AddWidget(rightMiniButton);
+
             UToggleButton toggleButton = new UToggleButton("Toggle Button");
+            toggleButton.color = Color.blue;
             buttonDrawer.AddWidget(toggleButton);
+
+            UHLayout toggleLayout = new UHLayout();
+            buttonDrawer.AddLayout(toggleLayout);
+
+            UToggleButton leftToggleButton = new UToggleButton("Left Toggle Button", UToggleButton.Style.Left);
+            toggleLayout.AddWidget(leftToggleButton);
+            UToggleButton midToggleButton = new UToggleButton("Mid Toggle Button", UToggleButton.Style.Middle);
+            toggleLayout.AddWidget(midToggleButton);
+            UToggleButton rightToggleButton = new UToggleButton("Right Toggle Button", UToggleButton.Style.Right);
+            toggleLayout.AddWidget(rightToggleButton);
+
+            UToggleButton miniToggleButton = new UToggleButton("Mini Toggle Button", UButton.Style.Mini);
+            miniToggleButton.color = Color.yellow;
+            buttonDrawer.AddWidget(miniToggleButton);
+
+            UHLayout miniToggleLayout = new UHLayout();
+            buttonDrawer.AddLayout(miniToggleLayout);
+
+            UToggleButton leftMiniToggleButton = new UToggleButton("Left Mini Toggle Button", UToggleButton.Style.MiniLeft);
+            miniToggleLayout.AddWidget(leftMiniToggleButton);
+            UToggleButton midMiniToggleButton = new UToggleButton("Mid Mini Toggle Button", UToggleButton.Style.MiniMiddle);
+            miniToggleLayout.AddWidget(midMiniToggleButton);
+            UToggleButton rightMiniToggleButton = new UToggleButton("Right Mini Toggle Button", UToggleButton.Style.MiniRight);
+            miniToggleLayout.AddWidget(rightMiniToggleButton);
+
+            UCheckbox checkbox = new UCheckbox("Right Checkbox");
+            buttonDrawer.AddWidget(checkbox);
+            UCheckbox leftCheckbox = new UCheckbox("Left Checkbox", UCheckbox.Style.Left);
+            buttonDrawer.AddWidget(leftCheckbox);
+
+            URadiobox radiobox = new URadiobox();
+            buttonDrawer.AddWidget(radiobox);
         }
     }
 }

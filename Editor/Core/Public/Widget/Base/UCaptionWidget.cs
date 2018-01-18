@@ -13,7 +13,7 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
-        private string _caption = string.Empty;
+        private GUIContent _content = new GUIContent();
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace UEditorGUI
         /// <param name="caption"></param>
         protected UCaptionWidget(string caption)
         {
-            _caption = caption;
+            _content.text = caption;
         }
 
         #endregion
@@ -45,8 +45,38 @@ namespace UEditorGUI
         /// </summary>
         public string caption
         {
-            set { _caption = value; }
-            get { return _caption; }
+            set { _content.text = value; }
+            get { return _content.text; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string tooltip
+        {
+            set { _content.tooltip = value; }
+            get { return _content.tooltip; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Texture image
+        {
+            set { _content.image = value; }
+            get { return _content.image; }
+        }
+
+        #endregion
+
+        #region Private
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected GUIContent content
+        {
+            get { return _content; }
         }
 
         #endregion

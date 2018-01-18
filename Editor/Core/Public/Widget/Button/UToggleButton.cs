@@ -6,7 +6,7 @@ namespace UEditorGUI
     /// <summary>
     /// 
     /// </summary>
-    public class UToggleButton : UCaptionWidget
+    public class UToggleButton : UButton
     {
         #region Data
 
@@ -32,8 +32,8 @@ namespace UEditorGUI
         /// 
         /// </summary>
         public UToggleButton()
+            : this("Toggle Button")
         {
-            caption = "Toggle Button";
         }
 
         /// <summary>
@@ -41,7 +41,17 @@ namespace UEditorGUI
         /// </summary>
         /// <param name="caption"></param>
         public UToggleButton(string caption)
-            : base(caption)
+            : this(caption, Style.Normal)
+        {
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="caption"></param>
+        public UToggleButton(string caption, Style style)
+            : base(caption, style)
         {
             
         }
@@ -55,32 +65,14 @@ namespace UEditorGUI
         /// </summary>
         protected override void UpdateGUI()
         {
-            style = attachOnToolbar ? EditorStyles.toolbarButton : GUI.skin.GetStyle("Button");
-            Rect rect = GUILayoutUtility.GetRect(new GUIContent(caption), style, GUILayout.ExpandWidth(!attachOnToolbar));
-
             EditorGUI.BeginChangeCheck();
             {
-                _toggled = GUI.Toggle(rect, _toggled, string.Empty, style);
+                _toggled = GUILayout.Toggle(_toggled, content, style);
             }
-            bool changed = EditorGUI.EndChangeCheck();
-
-            GUIStyle labelStyle = EditorStyles.miniLabel;
-            labelStyle.alignment = TextAnchor.MiddleCenter;
-
-            GUI.Label(rect, caption, labelStyle);
-
-            if (changed)
+            if (EditorGUI.EndChangeCheck())
             {
                 OnToggleChangedHandler();
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected override void ActiveToolbarGuiStyle()
-        {
-            this.style = EditorStyles.toolbarButton;
         }
 
         #endregion
@@ -94,11 +86,9 @@ namespace UEditorGUI
         {
             set
             {
-                bool store = _toggled;
-                _toggled = value;
-
-                if (store != _toggled)
+                if (value != _toggled)
                 {
+                    _toggled = value;
                     OnToggleChangedHandler();
                 }
             }
@@ -116,7 +106,7 @@ namespace UEditorGUI
         {
             if (OnToggleChanged != null)
             {
-                UToggleEventArgs args = new UToggleEventArgs(this, _toggled);
+                UToggleEventArgs args = new UToggleEventArgs(this, toggled);
                 OnToggleChanged(args);
             }
         }

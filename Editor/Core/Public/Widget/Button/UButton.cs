@@ -8,6 +8,61 @@ namespace UEditorGUI
     /// </summary>
     public class UButton : UCaptionWidget
     {
+        #region Data
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public enum Style
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            Normal,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            Left,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            Middle,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            Right,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            Mini,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            MiniLeft,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            MiniMiddle,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            MiniRight
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static GUIStyle[] _stylesheet = null;
+
+        #endregion
+
         #region Event
 
         /// <summary>
@@ -23,8 +78,8 @@ namespace UEditorGUI
         /// 
         /// </summary>
         public UButton()
+            : this("Button")
         {
-            caption = "Button";
         }
 
         /// <summary>
@@ -32,7 +87,7 @@ namespace UEditorGUI
         /// </summary>
         /// <param name="caption"></param>
         public UButton(string caption)
-            : base(caption)
+            : this(caption, Style.Normal)
         {
         }
 
@@ -41,10 +96,10 @@ namespace UEditorGUI
         /// </summary>
         /// <param name="caption"></param>
         /// <param name="style"></param>
-        protected UButton(string caption, GUIStyle style)
+        public UButton(string caption, Style style)
             : base(caption)
         {
-            this.style = style;
+            this.style = GetStyle((int)style);
         }
 
         #endregion
@@ -56,18 +111,7 @@ namespace UEditorGUI
         /// </summary>
         protected override void UpdateGUI()
         {
-            bool clicked = false;
-
-            if (style == GUIStyle.none)
-            {
-                clicked = GUILayout.Button(caption);
-            }
-            else
-            {
-                clicked = GUILayout.Button(caption, style);
-            }
-
-            if (clicked)
+            if (GUILayout.Button(content, style))
             {
                 OnClickedHandler();
             }
@@ -78,7 +122,7 @@ namespace UEditorGUI
         /// </summary>
         protected override void ActiveToolbarGuiStyle()
         {
-            this.style = EditorStyles.toolbarButton;
+            this.style = GetStyle(8);
         }
 
         #endregion
@@ -95,6 +139,29 @@ namespace UEditorGUI
                 UEventArgs args = new UEventArgs(this);
                 OnClicked(args);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="style"></param>
+        /// <returns></returns>
+        private static GUIStyle GetStyle(int styleIndex)
+        {
+            if (_stylesheet == null)
+            {
+                _stylesheet = new GUIStyle[9]{ new GUIStyle("button"),
+                                               new GUIStyle("buttonleft"),
+                                               new GUIStyle("buttonmid"),
+                                               new GUIStyle("buttonright"),
+                                               EditorStyles.miniButton,
+                                               EditorStyles.miniButtonLeft,
+                                               EditorStyles.miniButtonMid,
+                                               EditorStyles.miniButtonRight,
+                                               EditorStyles.toolbarButton };
+            }
+
+            return _stylesheet[styleIndex];
         }
 
         #endregion

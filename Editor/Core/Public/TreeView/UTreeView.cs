@@ -112,8 +112,11 @@ namespace UEditorGUI
             }
             EditorGUILayout.EndVertical();
 
-            ProcessKeyboardEvent();
             ProcessMouseEvent();
+            if (_hasFocus)
+            {
+                ProcessKeyboardEvent();
+            }
 
             if (_selectedChanged)
             {

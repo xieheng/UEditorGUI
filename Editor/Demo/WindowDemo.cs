@@ -102,60 +102,62 @@ public class WindowDemo : UWindow
             AddWidget(toolbar);
         }
 
-        //listview
-        {
-            UListView listView = new UListView();
-            AddWidget(listView);
-
-            listView.Add("1");
-            listView.Add("2");
-            listView.Add("3");
-            listView.Add("4");
-            listView.Add("5");
-            listView.Add("6");
-        }
-
         //treeview
         {
             UTreeView treeView = new UTreeView();
             AddWidget(treeView);
 
-            UTreeViewItem item0 = treeView.Add("0");
-            UTreeViewItem child00 = item0.Add("0.0");
-            child00.Add("0.0.0");
-            UTreeViewItem child01 = item0.Add("0.1");
-            child00.Add("0.0.1");
+            UTreeViewItem item0 = treeView.Add("treeview item 1");
+            UTreeViewItem child00 = item0.Add("treeview item 1.1");
+            child00.Add("treeview item 1.1.1");
+            UTreeViewItem child01 = item0.Add("treeview item 1.2");
+            child00.Add("treeview item 1.2.1");
 
-            UTreeViewItem item1 = treeView.Add("1");
-            item1.Add("1.0");
-            item1.Add("1.1");
+            UTreeViewItem item1 = treeView.Add("treeview item 2");
+            item1.Add("treeview item 2.1");
+            item1.Add("treeview item 2.2");
 
-            UTreeViewItem item2 = treeView.Add("2");
-            item2.Add("2.0");
-            item2.Add("2.1");
+            UTreeViewItem item2 = treeView.Add("treeview item 3");
+            item2.Add("treeview item 3.1");
+            item2.Add("treeview item 3.2");
 
-            UTreeViewItem item3 = treeView.Add("3");
-            item3.Add("3.0");
-            item3.Add("3.1");
+            UTreeViewItem item3 = treeView.Add("treeview item 4");
+            item3.Add("treeview item 4.1");
+            item3.Add("treeview item 4.2");
 
-            UTreeViewItem item4 = treeView.Add("4");
-            item4.Add("4.0");
-            item4.Add("4.1");
+            UTreeViewItem item4 = treeView.Add("treeview item 5");
+            item4.Add("treeview item 5.1");
+            item4.Add("treeview item 5.2");
 
-            UTreeViewItem item5 = treeView.Add("5");
-            item5.Add("5.0");
-            item5.Add("5.1");
+            UTreeViewItem item5 = treeView.Add("treeview item 6");
+            item5.Add("treeview item 6.1");
+            item5.Add("treeview item 6.2");
 
-            UTreeViewItem item6 = treeView.Add("6");
-            item6.Add("6.0");
-            item6.Add("6.1");
+            UTreeViewItem item6 = treeView.Add("treeview item 7");
+            item6.Add("treeview item 7.1");
+            item6.Add("treeview item 7.2");
 
-            treeView.Add("7");
-            treeView.Add("8");
-            treeView.Add("9");
+            treeView.Add("treeview item 8");
+            treeView.Add("treeview item 9");
+            treeView.Add("treeview item 10");
         }
 
-        
+        //listview
+        {
+            UListView listView = new UListView();
+            AddWidget(listView);
+
+            listView.Add("listview item 1");
+            listView.Add("listview item 2");
+            listView.Add("listview item 3");
+            listView.Add("listview item 4");
+            listView.Add("listview item 5");
+            listView.Add("listview item 6");
+            listView.Add("listview item 7");
+            listView.Add("listview item 8");
+            listView.Add("listview item 9");
+            listView.Add("listview item 10");
+        }
     }
 
     #endregion

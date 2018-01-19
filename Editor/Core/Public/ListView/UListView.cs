@@ -40,6 +40,15 @@ namespace UEditorGUI
 
         #endregion
 
+        #region Event
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public event UEventHandler OnSelectionChanged;
+
+        #endregion
+
         #region Override
 
         /// <summary>
@@ -92,6 +101,10 @@ namespace UEditorGUI
             EditorGUILayout.EndVertical();
 
             ProcessMouseEvent();
+            if (_hasFocus)
+            { 
+                ProcessKeyboardEvent(); 
+            }
         }
 
         #endregion
@@ -166,6 +179,71 @@ namespace UEditorGUI
         /// <summary>
         /// 
         /// </summary>
+        private void ProcessKeyboardEvent()
+        {
+            if (_children.Count == 0)
+                return;
+
+            if (Event.current.type == EventType.KeyDown)
+            {
+                if (Event.current.keyCode == KeyCode.DownArrow)
+                {
+                    if (_selections.Count == 0)
+                    {
+                        UListViewItemImp child = _children[0];
+                        child.selected = true;
+                        _selections.Add(child);
+                    }
+                    else
+                    {
+                        UListViewItemImp lastItem = _selections[_selections.Count - 1];
+                        int index = _children.IndexOf(lastItem);
+
+                        if (index < _children.Count - 1)
+                        {
+                            ClearSelectedList();
+
+                            UListViewItemImp item = _children[index + 1];
+                            item.selected = true;
+                            _selections.Add(item);
+                        }
+                    }
+                }
+                else if (Event.current.keyCode == KeyCode.UpArrow)
+                {
+                    if (_selections.Count == 0)
+                    {
+                        UListViewItemImp child = _children[0];
+                        child.selected = true;
+                        _selections.Add(child);
+                    }
+                    else
+                    {
+                        UListViewItemImp firstItem = _selections[0];
+                        int index = _children.IndexOf(firstItem);
+
+                        if (index > 0)
+                        {
+                            ClearSelectedList();
+
+                            UListViewItemImp item = _children[index - 1];
+                            item.selected = true;
+                            _selections.Add(item);
+                        }
+                    }
+                }
+                else
+                {
+                    //
+                }
+
+                Event.current.Use();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private void ProcessMouseEvent()
         {
             if (Event.current.type == EventType.MouseUp)
@@ -198,31 +276,82 @@ namespace UEditorGUI
         /// </summary>
         private void ProcessLeftMouseButton()
         {
+            bool selectionChanged = false;
             Vector2 mousePt = Event.current.mousePosition - new Vector2(_rect.x, _rect.y) + _scrollPos;
 
             foreach (UListViewItemImp child in _children)
             {
                 if (child.Hit(mousePt))
                 {
-                    if (!Event.current.shift && !Event.current.control)
+                    if (Event.current.control)
+                    {
+                        child.selected = !child.selected;
+                        if (child.selected)
+                        {
+                            _selections.Add(child);
+                        }
+                        else
+                        {
+                            _selections.Remove(child);
+                        }
+                        selectionChanged = true;
+                    }
+                    else if (Event.current.shift)
+                    {
+                        int selectionCount = _selections.Count;
+
+                        if (_selections.Count == 0)
+                        {
+                            child.selected = true;
+                            _selections.Add(child);
+                        }
+                        else
+                        {
+                            UListViewItemImp first = _selections[0];
+
+                            int firstIdx = _children.IndexOf(first);
+                            int childIdx = _children.IndexOf(child);
+
+                            ClearSelectedList();
+
+                            int index = Mathf.Min(firstIdx, childIdx);
+                            int count = Mathf.Abs(firstIdx - childIdx) + 1;
+                            for (int i=0; i<count; i++)
+                            {
+                                UListViewItemImp item = _children[index + i];
+                                item.selected = true;
+                                _selections.Add(item);
+                            }
+                        }
+
+                        if (_selections.Count != selectionCount)
+                        {
+                            selectionChanged = true;
+                        }
+                    }
+                    else
                     {
                         ClearSelectedList();
+
+                        child.selected = !child.selected;
+                        if (child.selected)
+                        {
+                            _selections.Add(child);
+                        }
+                        selectionChanged = true;
+                    }
+
+                    if (selectionChanged)
+                    {
+                        //Debug.Log("listview selection changed");
+                        if (OnSelectionChanged != null)
+                        {
+                            OnSelectionChanged(new UEventArgs(this));
+                        }
                     }
                     //Event.current.Use();
-
-                    child.selected = !child.selected;
-                    if (child.selected)
-                    {
-                        _selections.Add(child);
-                    }
-
                     return;
                 }
-            }
-
-            if (_selections.Count > 0)
-            {
-                //event...
             }
 
             ClearSelectedList();

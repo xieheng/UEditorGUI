@@ -81,9 +81,7 @@ namespace UEditorGUI.Internal.Styles
         /// </summary>
         private void Load()
         {
-#if UNITY_5
-            UEditorStyles assets = AssetDatabase.LoadAssetAtPath<UEditorStyles>("Assets/trunk/Editor/Core/Internal/Styles/UEditorStyles_5.x.asset");
-#endif
+            UEditorStyles assets = AssetDatabase.LoadAssetAtPath<UEditorStyles>("Assets/UEditorGUI/Editor/Core/Internal/Styles/UEditorStyles_5.x.asset");
 
             if (assets == null)
             {
